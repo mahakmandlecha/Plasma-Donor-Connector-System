@@ -94,7 +94,6 @@ class _HomeState extends State<Home> {
         bottomSheet: slideIndex != 2
             ? Container(
                 color: Colors.amberAccent[700],
-                margin: EdgeInsets.symmetric(vertical: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
