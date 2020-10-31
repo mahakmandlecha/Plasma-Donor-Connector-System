@@ -6,7 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //
 
 import 'package:plasma_donor/utils/customDialogs.dart';
-import './home.dart';
+
+import 'homepage.dart';
 
 class RegisterPage extends StatefulWidget {
   final FirebaseAuth appAuth;
@@ -26,7 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String _availabilitySelected = '';
   List<String> _gender = ['Male', 'Female'];
   String _genderSelected = '';
-  
+
   bool _availabilityCategorySelected = false;
   List<String> _bloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
   String _bloodGroupSelected = '';
@@ -78,11 +79,11 @@ class _RegisterPageState extends State<RegisterPage> {
           'uid': user.uid,
           'name': _name,
           'email': _email,
-          'bloodgroup': _bloodGroupselected,
+          'bloodgroup': _bloodGroupSelected,
           'availability': _availabilitySelected,
-          'mobile-number':_phoneNumber,
-          'address':_address,
-          'gender':_genderSelected,
+          'mobile-number': _phoneNumber,
+          'address': _address,
+          'gender': _genderSelected,
         };
         addData(UserDetails).then((result) {
           print("User Added");
@@ -168,7 +169,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           onSaved: (value) => _name = value,
                         ),
                       ),
-                      
                       Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: TextFormField(
@@ -185,7 +185,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           onSaved: (value) => _email = value,
                         ),
                       ),
-                       Padding(
+                      Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: TextFormField(
                           decoration: InputDecoration(
@@ -223,20 +223,17 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: TextFormField(
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
-                            
                             hintText: 'Phone No.',
                             icon: Icon(
                               FontAwesomeIcons.phone,
                               color: Color.fromARGB(1000, 221, 46, 68),
                             ),
                           ),
-                          validator: (value) => value.isEmpty
-                              ? "Phone no. can't be empty"
-                              : null,
+                          validator: (value) =>
+                              value.isEmpty ? "Phone no. can't be empty" : null,
                           onSaved: (value) => _phoneNumber = value,
                         ),
                       ),
-                     
                       Container(
                         child: Column(
                           children: <Widget>[
@@ -319,7 +316,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           ],
                         ),
                       ),
-                     
                       Container(
                         child: Column(
                           children: <Widget>[

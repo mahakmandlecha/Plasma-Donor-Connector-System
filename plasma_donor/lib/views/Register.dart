@@ -6,7 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //
 
 import 'package:plasma_donor/utils/customDialogs.dart';
-import './home.dart';
+
+import 'homepage.dart';
 
 class RegisterPage extends StatefulWidget {
   final FirebaseAuth appAuth;
@@ -19,10 +20,19 @@ class _RegisterPageState extends State<RegisterPage> {
   final formkey = new GlobalKey<FormState>();
   String _email;
   String _password;
+  String _phoneNumber;
+  String _address;
   String _name;
+  List<String> _availability = ['Yes', 'No'];
+  String _availabilitySelected = '';
+  List<String> _gender = ['Male', 'Female'];
+  String _genderSelected = '';
+
+  bool _availabilityCategorySelected = false;
   List<String> _bloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
-  String _selected = '';
+  String _bloodGroupSelected = '';
   bool _categorySelected = false;
+  bool _genderCategorySelected = false;
   bool isLoggedIn() {
     if (FirebaseAuth.instance.currentUser() != null) {
       return true;
@@ -69,7 +79,11 @@ class _RegisterPageState extends State<RegisterPage> {
           'uid': user.uid,
           'name': _name,
           'email': _email,
-          'bloodgroup': _selected,
+          'bloodgroup': _bloodGroupSelected,
+          'availability': _availabilitySelected,
+          'mobile-number': _phoneNumber,
+          'address': _address,
+          'gender': _genderSelected,
         };
         addData(UserDetails).then((result) {
           print("User Added");
@@ -188,6 +202,38 @@ class _RegisterPageState extends State<RegisterPage> {
                           onSaved: (value) => _password = value,
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'Address',
+                            icon: Icon(
+                              FontAwesomeIcons.user,
+                              color: Color.fromARGB(1000, 221, 46, 68),
+                            ),
+                          ),
+                          validator: (value) => value.isEmpty
+                              ? "Address field can't be empty"
+                              : null,
+                          onSaved: (value) => _address = value,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            hintText: 'Phone No.',
+                            icon: Icon(
+                              FontAwesomeIcons.phone,
+                              color: Color.fromARGB(1000, 221, 46, 68),
+                            ),
+                          ),
+                          validator: (value) =>
+                              value.isEmpty ? "Phone no. can't be empty" : null,
+                          onSaved: (value) => _phoneNumber = value,
+                        ),
+                      ),
                       Container(
                         child: Column(
                           children: <Widget>[
@@ -209,7 +255,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 }).toList(),
                                 onChanged: (newValue) {
                                   setState(() {
-                                    _selected = newValue;
+                                    _bloodGroupSelected = newValue;
                                     this._categorySelected = true;
                                   });
                                 },
@@ -219,7 +265,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               height: 10.0,
                             ),
                             Text(
-                              _selected,
+                              _bloodGroupSelected,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
@@ -229,8 +275,87 @@ class _RegisterPageState extends State<RegisterPage> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 30.0,
+                      Container(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(top: 20.0),
+                              child: DropdownButton(
+                                hint: Text(
+                                  'choose availability',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(1000, 221, 46, 68),
+                                  ),
+                                ),
+                                iconSize: 40.0,
+                                items: _availability.map((val) {
+                                  return new DropdownMenuItem<String>(
+                                    value: val,
+                                    child: new Text(val),
+                                  );
+                                }).toList(),
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _availabilitySelected = newValue;
+                                    this._availabilityCategorySelected = true;
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              _availabilitySelected,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                                color: Color.fromARGB(1000, 221, 46, 68),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(top: 20.0),
+                              child: DropdownButton(
+                                hint: Text(
+                                  'choose gender',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(1000, 221, 46, 68),
+                                  ),
+                                ),
+                                iconSize: 40.0,
+                                items: _gender.map((val) {
+                                  return new DropdownMenuItem<String>(
+                                    value: val,
+                                    child: new Text(val),
+                                  );
+                                }).toList(),
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _genderSelected = newValue;
+                                    this._genderCategorySelected = true;
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              _genderSelected,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                                color: Color.fromARGB(1000, 221, 46, 68),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       RaisedButton(
                         onPressed: () => validate_submit(context),
