@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
       height: isCurrentPage ? 10.0 : 6.0,
       width: isCurrentPage ? 10.0 : 6.0,
       decoration: BoxDecoration(
-        color: isCurrentPage ? Colors.grey : Colors.grey[300],
+        color: isCurrentPage ? Colors.grey : Colors.grey[50],
         borderRadius: BorderRadius.circular(12),
       ),
     );
@@ -93,6 +93,7 @@ class _HomeState extends State<Home> {
         ),
         bottomSheet: slideIndex != 2
             ? Container(
+                height: 60,
                 color: Colors.amberAccent[700],
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
