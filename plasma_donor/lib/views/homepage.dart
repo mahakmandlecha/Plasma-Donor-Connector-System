@@ -9,8 +9,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plasma_donor/helper/constants.dart';
 import 'package:plasma_donor/services/auth.dart';
 import 'package:plasma_donor/utils/customWaveIndicator.dart';
+import 'package:plasma_donor/views/homepagefornews.dart';
 import 'package:plasma_donor/views/signIn.dart';
 import 'package:plasma_donor/views/temp.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -119,7 +121,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Home"),
               leading: Icon(
                 FontAwesomeIcons.home,
-                 color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 Navigator.push(context,
@@ -130,7 +132,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Blood Donors"),
               leading: Icon(
                 FontAwesomeIcons.handshake,
-                  color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 Navigator.push(
@@ -143,7 +145,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Blood Requests"),
               leading: Icon(
                 FontAwesomeIcons.burn,
-                 color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 //
@@ -153,7 +155,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Campaigns"),
               leading: Icon(
                 FontAwesomeIcons.ribbon,
-                 color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 Navigator.push(
@@ -163,10 +165,21 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              title: Text("Feed"),
+              leading: Icon(
+                FontAwesomeIcons.newspaper,
+                color: Colors.amberAccent[700],
+              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePageForNews()));
+              },
+            ),
+            ListTile(
               title: Text("Logout"),
               leading: Icon(
                 FontAwesomeIcons.signOutAlt,
-                  color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 signOut();
@@ -303,6 +316,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  _makingPhoneCall() async {
+    const url = 'tel:9876543210';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  
+  }
+
+    String message = "This is a test message!";
+    List<String> recipents = ["1234567890", "5556787676"];
+
+    void _sendSMS(String message, List<String> recipents) async {
+     // String _result = await sendSMS(message: message, recipients: recipents)
+       //   .catchError((onError) {
+       // print(onError);
+      //});
+      //print(_result);
+    }
+
   Widget myDetailsContainer1(String restaurantName) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -323,32 +357,52 @@ class _HomePageState extends State<HomePage> {
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Container(
-              child: Icon(
-                FontAwesomeIcons.phone,
-                color: Colors.amber,
-                size: 40.0,
+            GestureDetector(
+              onTap: () {
+                _makingPhoneCall();
+              },
+              child: Container(
+                child: Icon(
+                  FontAwesomeIcons.phone,
+                  color: Colors.amber,
+                  size: 40.0,
+                ),
               ),
             ),
-            Container(
-              child: Icon(
-                FontAwesomeIcons.phone,
-                color: Colors.white,
-                size: 40.0,
+            GestureDetector(
+              onTap: (){
+                _makingPhoneCall();
+              },
+                          child: Container(
+                child: Icon(
+                  FontAwesomeIcons.phone,
+                  color: Colors.white,
+                  size: 40.0,
+                ),
               ),
             ),
-            Container(
-              child: Icon(
-                FontAwesomeIcons.phone,
-                color: Colors.white,
-                size: 40.0,
+            GestureDetector(
+              onTap: (){
+                _makingPhoneCall();
+              },
+                          child: Container(
+                child: Icon(
+                  FontAwesomeIcons.phone,
+                  color: Colors.white,
+                  size: 40.0,
+                ),
               ),
             ),
-            Container(
-              child: Icon(
-                FontAwesomeIcons.facebookMessenger,
-                color: Colors.amber,
-                size: 40.0,
+            GestureDetector(
+              onTap: () {
+                _sendSMS(message, recipents);
+              },
+              child: Container(
+                child: Icon(
+                  FontAwesomeIcons.facebookMessenger,
+                  color: Colors.amber,
+                  size: 40.0,
+                ),
               ),
             ),
           ],
