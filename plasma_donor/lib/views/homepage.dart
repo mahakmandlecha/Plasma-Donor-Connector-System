@@ -15,7 +15,8 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
   }
-    double zoomVal=5.0;
+
+  double zoomVal = 5.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +26,7 @@ class HomePageState extends State<HomePage> {
             onPressed: () {
               //
             }),
+        backgroundColor: Colors.amberAccent[700],
         title: Text("New York"),
         actions: <Widget>[
           IconButton(
@@ -45,41 +47,42 @@ class HomePageState extends State<HomePage> {
     );
   }
 
- Widget _zoomminusfunction() {
-
+  Widget _zoomminusfunction() {
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
-            icon: Icon(FontAwesomeIcons.searchMinus,color:Color(0xff6200ee)),
-            onPressed: () {
-              zoomVal--;
-             _minus( zoomVal);
-            }),
+          icon: Icon(FontAwesomeIcons.searchMinus, color: Color(0xff6200ee)),
+          onPressed: () {
+            zoomVal--;
+            _minus(zoomVal);
+          }),
     );
- }
- Widget _zoomplusfunction() {
-   
+  }
+
+  Widget _zoomplusfunction() {
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-            icon: Icon(FontAwesomeIcons.searchPlus,color:Color(0xff6200ee)),
-            onPressed: () {
-              zoomVal++;
-              _plus(zoomVal);
-            }),
+          icon: Icon(FontAwesomeIcons.searchPlus, color: Color(0xff6200ee)),
+          onPressed: () {
+            zoomVal++;
+            _plus(zoomVal);
+          }),
     );
- }
-
- Future<void> _minus(double zoomVal) async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(40.712776, -74.005974), zoom: zoomVal)));
   }
+
+  Future<void> _minus(double zoomVal) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(40.712776, -74.005974), zoom: zoomVal)));
+  }
+
   Future<void> _plus(double zoomVal) async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(40.712776, -74.005974), zoom: zoomVal)));
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(40.712776, -74.005974), zoom: zoomVal)));
   }
 
-  
   Widget _buildContainer() {
     return Align(
       alignment: Alignment.bottomLeft,
@@ -94,21 +97,27 @@ class HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
                   "https://lh5.googleusercontent.com/p/AF1QipO3VPL9m-b355xWeg4MXmOQTauFAEkavSluTtJU=w225-h160-k-no",
-                  40.738380, -73.988426,"Gramercy Tavern"),
+                  40.738380,
+                  -73.988426,
+                  "Gramercy Tavern"),
             ),
             SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
                   "https://lh5.googleusercontent.com/p/AF1QipMKRN-1zTYMUVPrH-CcKzfTo6Nai7wdL7D8PMkt=w340-h160-k-no",
-                  40.761421, -73.981667,"Le Bernardin"),
+                  40.761421,
+                  -73.981667,
+                  "Le Bernardin"),
             ),
             SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
                   "https://images.unsplash.com/photo-1504940892017-d23b9053d5d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                  40.732128, -73.999619,"Blue Hill"),
+                  40.732128,
+                  -73.999619,
+                  "Blue Hill"),
             ),
           ],
         ),
@@ -116,42 +125,42 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _boxes(String _image, double lat,double long,String restaurantName) {
-    return  GestureDetector(
-        onTap: () {
-          _gotoLocation(lat,long);
-        },
-        child:Container(
-              child: new FittedBox(
-                child: Material(
-                    color: Colors.white,
-                    elevation: 14.0,
-                    borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: 180,
-                          height: 200,
-                          child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(24.0),
-                            child: Image(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(_image),
-                            ),
-                          ),),
-                          Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: myDetailsContainer1(restaurantName),
-                          ),
-                        ),
-
-                      ],)
-                ),
-              ),
-            ),
+  Widget _boxes(String _image, double lat, double long, String restaurantName) {
+    return GestureDetector(
+      onTap: () {
+        _gotoLocation(lat, long);
+      },
+      child: Container(
+        child: new FittedBox(
+          child: Material(
+              color: Colors.white,
+              elevation: 14.0,
+              borderRadius: BorderRadius.circular(24.0),
+              shadowColor: Color(0x802196F3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: 180,
+                    height: 200,
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(24.0),
+                      child: Image(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(_image),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: myDetailsContainer1(restaurantName),
+                    ),
+                  ),
+                ],
+              )),
+        ),
+      ),
     );
   }
 
@@ -162,81 +171,82 @@ class HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Container(
-              child: Text(restaurantName,
+              child: Text(
+            restaurantName,
             style: TextStyle(
                 color: Color(0xff6200ee),
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold),
           )),
         ),
-        SizedBox(height:5.0),
+        SizedBox(height: 5.0),
         Container(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Container(
-                  child: Text(
-                "4.1",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                ),
-              )),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+                child: Text(
+              "4.1",
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 18.0,
               ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
+            )),
+            Container(
+              child: Icon(
+                FontAwesomeIcons.solidStar,
+                color: Colors.amber,
+                size: 15.0,
               ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
+            ),
+            Container(
+              child: Icon(
+                FontAwesomeIcons.solidStar,
+                color: Colors.amber,
+                size: 15.0,
               ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
+            ),
+            Container(
+              child: Icon(
+                FontAwesomeIcons.solidStar,
+                color: Colors.amber,
+                size: 15.0,
               ),
-              Container(
-                child: Icon(
-                  FontAwesomeIcons.solidStarHalf,
-                  color: Colors.amber,
-                  size: 15.0,
-                ),
+            ),
+            Container(
+              child: Icon(
+                FontAwesomeIcons.solidStar,
+                color: Colors.amber,
+                size: 15.0,
               ),
-               Container(
-                  child: Text(
-                "(946)",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                ),
-              )),
-            ],
-          )),
-          SizedBox(height:5.0),
+            ),
+            Container(
+              child: Icon(
+                FontAwesomeIcons.solidStarHalf,
+                color: Colors.amber,
+                size: 15.0,
+              ),
+            ),
+            Container(
+                child: Text(
+              "(946)",
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 18.0,
+              ),
+            )),
+          ],
+        )),
+        SizedBox(height: 5.0),
         Container(
-                  child: Text(
-                "American \u00B7 \u0024\u0024 \u00B7 1.6 mi",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18.0,
-                ),
-              )),
-              SizedBox(height:5.0),
+            child: Text(
+          "American \u00B7 \u0024\u0024 \u00B7 1.6 mi",
+          style: TextStyle(
+            color: Colors.black54,
+            fontSize: 18.0,
+          ),
+        )),
+        SizedBox(height: 5.0),
         Container(
             child: Text(
           "Closed \u00B7 Opens 17:00 Thu",
@@ -255,21 +265,31 @@ class HomePageState extends State<HomePage> {
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition:  CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 12),
+        initialCameraPosition:
+            CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
         markers: {
-          newyork1Marker,newyork2Marker,newyork3Marker,gramercyMarker,bernardinMarker,blueMarker
+          newyork1Marker,
+          newyork2Marker,
+          newyork3Marker,
+          gramercyMarker,
+          bernardinMarker,
+          blueMarker
         },
       ),
     );
   }
 
-  Future<void> _gotoLocation(double lat,double long) async {
+  Future<void> _gotoLocation(double lat, double long) async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 15,tilt: 50.0,
-      bearing: 45.0,)));
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(lat, long),
+      zoom: 15,
+      tilt: 50.0,
+      bearing: 45.0,
+    )));
   }
 }
 
