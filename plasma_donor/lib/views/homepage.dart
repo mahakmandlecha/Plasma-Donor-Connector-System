@@ -1,42 +1,179 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:plasma_donor/helper/constants.dart';
+import 'package:plasma_donor/services/auth.dart';
+import 'package:plasma_donor/utils/customWaveIndicator.dart';
+import 'package:plasma_donor/views/signIn.dart';
+import 'package:plasma_donor/views/temp.dart';
 
 class HomePage extends StatefulWidget {
   @override
-  HomePageState createState() => HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
+  FirebaseUser currentUser;
   Completer<GoogleMapController> _controller = Completer();
+  String _name, _bloodgrp, _email;
+  Widget _child;
+  AuthService authService = new AuthService();
+  signOut() async {
+    authService.signOut();
+    Constants.saveUserLoggedInSharedPreference(false);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => SignIn()));
+  }
+
+  Future<Null> _fetchUserInfo() async {
+    Map<String, dynamic> _userInfo;
+    FirebaseUser _currentUser = await FirebaseAuth.instance.currentUser();
+
+    DocumentSnapshot _snapshot = await Firestore.instance
+        .collection("User Details")
+        .document(_currentUser.uid)
+        .get();
+
+    _userInfo = _snapshot.data;
+
+    this.setState(() {
+      _name = _userInfo['name'];
+      _email = _userInfo['email'];
+      _bloodgrp = _userInfo['bloodgroup'];
+      _child = _myWidget();
+    });
+  }
+
+  Future<void> _loadCurrentUser() async {
+    await FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+      setState(() {
+        // call setState to rebuild the view
+        this.currentUser = user;
+      });
+    });
+  }
 
   @override
   void initState() {
+    _child = WaveIndicator();
+    _loadCurrentUser();
+    _fetchUserInfo();
     super.initState();
   }
 
   double zoomVal = 5.0;
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, //top bar color
+      systemNavigationBarColor: Colors.black, //bottom bar color
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+    return _child;
+  }
+
+  Widget _myWidget() {
     return Scaffold(
+      backgroundColor: Color.fromARGB(1000, 221, 46, 68),
       appBar: AppBar(
-        leading: IconButton(
-            color: Colors.white,
-            icon: Icon(FontAwesomeIcons.arrowLeft),
-            onPressed: () {
-              //
-            }),
+        elevation: 0.0,
+        centerTitle: true,
         backgroundColor: Colors.amberAccent[700],
-        title: Text("New York"),
-        actions: <Widget>[
-          IconButton(
-              color: Colors.white,
-              icon: Icon(FontAwesomeIcons.search),
-              onPressed: () {
+        title: Text(
+          "Register",
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.all(0.0),
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.amberAccent[700],
+              ),
+              accountName: Text(
+                currentUser == null ? "" : _name,
+                style: TextStyle(
+                  fontSize: 22.0,
+                ),
+              ),
+              accountEmail: Text(currentUser == null ? "" : _email),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Text(
+                  currentUser == null ? "" : _bloodgrp,
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    color: Colors.black54,
+                    fontFamily: 'SouthernAire',
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text("Home"),
+              leading: Icon(
+                FontAwesomeIcons.home,
+                 color: Colors.amberAccent[700],
+              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
+              },
+            ),
+            ListTile(
+              title: Text("Blood Donors"),
+              leading: Icon(
+                FontAwesomeIcons.handshake,
+                  color: Colors.amberAccent[700],
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Temp())); //DonorsPage()));
+              },
+            ),
+            ListTile(
+              title: Text("Blood Requests"),
+              leading: Icon(
+                FontAwesomeIcons.burn,
+                 color: Colors.amberAccent[700],
+              ),
+              onTap: () {
                 //
-              }),
-        ],
+              },
+            ),
+            ListTile(
+              title: Text("Campaigns"),
+              leading: Icon(
+                FontAwesomeIcons.ribbon,
+                 color: Colors.amberAccent[700],
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Temp())); // CampaignsPage()));
+              },
+            ),
+            ListTile(
+              title: Text("Logout"),
+              leading: Icon(
+                FontAwesomeIcons.signOutAlt,
+                  color: Colors.amberAccent[700],
+              ),
+              onTap: () {
+                signOut();
+              },
+            ),
+          ],
+        ),
       ),
       body: Stack(
         children: <Widget>[
@@ -53,7 +190,7 @@ class HomePageState extends State<HomePage> {
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
-          icon: Icon(FontAwesomeIcons.searchMinus, color: Colors.black),
+          icon: Icon(FontAwesomeIcons.searchMinus, color: Color(0xff6200ee)),
           onPressed: () {
             zoomVal--;
             _minus(zoomVal);
@@ -65,7 +202,7 @@ class HomePageState extends State<HomePage> {
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-          icon: Icon(FontAwesomeIcons.searchPlus, color: Colors.black),
+          icon: Icon(FontAwesomeIcons.searchPlus, color: Color(0xff6200ee)),
           onPressed: () {
             zoomVal++;
             _plus(zoomVal);
