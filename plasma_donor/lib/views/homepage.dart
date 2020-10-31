@@ -101,7 +101,7 @@ class HomePageState extends State<HomePage> {
                   "https://lh5.googleusercontent.com/p/AF1QipO3VPL9m-b355xWeg4MXmOQTauFAEkavSluTtJU=w225-h160-k-no",
                   22.7196,
                   75.8577,
-                  "Indore"),
+                  "Mradul Rathore"),
             ),
             SizedBox(width: 10.0),
             Padding(
@@ -110,7 +110,7 @@ class HomePageState extends State<HomePage> {
                   "https://lh5.googleusercontent.com/p/AF1QipMKRN-1zTYMUVPrH-CcKzfTo6Nai7wdL7D8PMkt=w340-h160-k-no",
                   23.2599,
                   77.4126,
-                  "Bhopal"),
+                  "Ritik Jain"),
             ),
             SizedBox(width: 10.0),
             Padding(
@@ -119,7 +119,7 @@ class HomePageState extends State<HomePage> {
                   "https://images.unsplash.com/photo-1504940892017-d23b9053d5d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                   23.1765,
                   75.7885,
-                  "Ujjain"),
+                  "Mahak Mandlecha"),
             ),
           ],
         ),
@@ -138,7 +138,7 @@ class HomePageState extends State<HomePage> {
               color: Colors.white,
               elevation: 14.0,
               borderRadius: BorderRadius.circular(24.0),
-              shadowColor: Color(0x802196F3),
+              shadowColor: Colors.grey,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -176,7 +176,7 @@ class HomePageState extends State<HomePage> {
               child: Text(
             restaurantName,
             style: TextStyle(
-                color: Color(0xff6200ee),
+                color: Colors.amberAccent[700],
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold),
           )),
@@ -187,71 +187,40 @@ class HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Container(
-                child: Text(
-              "4.1",
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 18.0,
-              ),
-            )),
-            Container(
               child: Icon(
-                FontAwesomeIcons.solidStar,
+                FontAwesomeIcons.phone,
                 color: Colors.amber,
-                size: 15.0,
+                size: 40.0,
               ),
             ),
             Container(
               child: Icon(
-                FontAwesomeIcons.solidStar,
-                color: Colors.amber,
-                size: 15.0,
+                FontAwesomeIcons.phone,
+                color: Colors.white,
+                size: 40.0,
               ),
             ),
             Container(
               child: Icon(
-                FontAwesomeIcons.solidStar,
-                color: Colors.amber,
-                size: 15.0,
+                FontAwesomeIcons.phone,
+                color: Colors.white,
+                size: 40.0,
               ),
             ),
             Container(
               child: Icon(
-                FontAwesomeIcons.solidStar,
+                FontAwesomeIcons.facebookMessenger,
                 color: Colors.amber,
-                size: 15.0,
+                size: 40.0,
               ),
             ),
-            Container(
-              child: Icon(
-                FontAwesomeIcons.solidStarHalf,
-                color: Colors.amber,
-                size: 15.0,
-              ),
-            ),
-            Container(
-                child: Text(
-              "(946)",
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 18.0,
-              ),
-            )),
           ],
         )),
         SizedBox(height: 5.0),
-        Container(
-            child: Text(
-          "Vallabh nagar \u00B7 1.5 hr",
-          style: TextStyle(
-            color: Colors.black54,
-            fontSize: 18.0,
-          ),
-        )),
         SizedBox(height: 5.0),
         Container(
             child: Text(
-          "Closed \u00B7 Opens 17:00 Thu",
+          "XYZ colony      \u00B7      2 hours",
           style: TextStyle(
               color: Colors.black54,
               fontSize: 18.0,
@@ -273,12 +242,12 @@ class HomePageState extends State<HomePage> {
           _controller.complete(controller);
         },
         markers: {
-          newyork1Marker,
-          newyork2Marker,
-          newyork3Marker,
-          gramercyMarker,
-          bernardinMarker,
-          blueMarker
+          DewasMarker,
+          SagarMarker,
+          DasaiMarker,
+          IndoreMarker,
+          BhopalMarker,
+          UjjainMarker
         },
       ),
     );
@@ -295,27 +264,27 @@ class HomePageState extends State<HomePage> {
   }
 }
 
-Marker gramercyMarker = Marker(
-  markerId: MarkerId('gramercy'),
-  position: LatLng(40.738380, -73.988426),
-  infoWindow: InfoWindow(title: 'Gramercy Tavern'),
+Marker IndoreMarker = Marker(
+  markerId: MarkerId('Indore'), //gramercy
+  position: LatLng(22.7196, 75.8577),
+  infoWindow: InfoWindow(title: 'Indore'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
 
-Marker bernardinMarker = Marker(
-  markerId: MarkerId('bernardin'),
-  position: LatLng(40.761421, -73.981667),
-  infoWindow: InfoWindow(title: 'Le Bernardin'),
+Marker BhopalMarker = Marker(
+  markerId: MarkerId('Bhopal'),
+  position: LatLng(23.2599, 77.4126),
+  infoWindow: InfoWindow(title: 'Bhopal'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
-Marker blueMarker = Marker(
-  markerId: MarkerId('bluehill'),
-  position: LatLng(40.732128, -73.999619),
-  infoWindow: InfoWindow(title: 'Blue Hill'),
+Marker UjjainMarker = Marker(
+  markerId: MarkerId('Ujjain'),
+  position: LatLng(23.1765, 75.7885),
+  infoWindow: InfoWindow(title: 'Ujjain'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
@@ -323,26 +292,26 @@ Marker blueMarker = Marker(
 
 //New York Marker
 
-Marker newyork1Marker = Marker(
-  markerId: MarkerId('newyork1'),
-  position: LatLng(40.742451, -74.005959),
-  infoWindow: InfoWindow(title: 'Los Tacos'),
+Marker DewasMarker = Marker(
+  markerId: MarkerId('Dewas'),
+  position: LatLng(22.9676, 76.0534),
+  infoWindow: InfoWindow(title: 'Dewas'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
-Marker newyork2Marker = Marker(
-  markerId: MarkerId('newyork2'),
-  position: LatLng(40.729640, -73.983510),
-  infoWindow: InfoWindow(title: 'Tree Bistro'),
+Marker DasaiMarker = Marker(
+  markerId: MarkerId('Dasai'),
+  position: LatLng(22.7199, 75.1319),
+  infoWindow: InfoWindow(title: 'Dasai'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
 );
-Marker newyork3Marker = Marker(
-  markerId: MarkerId('newyork3'),
-  position: LatLng(40.719109, -74.000183),
-  infoWindow: InfoWindow(title: 'Le Coucou'),
+Marker SagarMarker = Marker(
+  markerId: MarkerId('Sagar'),
+  position: LatLng(23.8388, 78.7378),
+  infoWindow: InfoWindow(title: 'Sagar'),
   icon: BitmapDescriptor.defaultMarkerWithHue(
     BitmapDescriptor.hueViolet,
   ),
