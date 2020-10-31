@@ -42,7 +42,7 @@ List<SliderModel> getSlides(){
   SliderModel sliderModel = new SliderModel();
 
   //1
-  sliderModel.setDesc("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare facilisis vulputate. Integer tempus, dui et tempus semper, orci");
+  sliderModel.setDesc("Just recovered from Covid-19 😊 or having Covid 19 😟 No worries");
   sliderModel.setTitle("Donate Plasma Save Life");
   sliderModel.setImageAssetPath("assets/illustration.png");
   slides.add(sliderModel);
@@ -50,15 +50,15 @@ List<SliderModel> getSlides(){
   sliderModel = new SliderModel();
 
   //2
-  sliderModel.setDesc("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare facilisis vulputate. Integer tempus, dui et tempus semper, orci");
-  sliderModel.setTitle("Find the Donor");
+  sliderModel.setDesc("Having Covid-19? Need a plasma doner? 🔍 Donor here");
+  sliderModel.setTitle("Find a donor");
   sliderModel.setImageAssetPath("assets/illustration3.png");
   slides.add(sliderModel);
 
   sliderModel = new SliderModel();
 
   //3
-  sliderModel.setDesc("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ornare facilisis vulputate. Integer tempus, dui et tempus semper, orci");
+  sliderModel.setDesc("Congratulations on recovering from Covid-19. Help others to recover");
   sliderModel.setTitle("Become the Donor");
   sliderModel.setImageAssetPath("assets/illustration3.png");
   slides.add(sliderModel);
