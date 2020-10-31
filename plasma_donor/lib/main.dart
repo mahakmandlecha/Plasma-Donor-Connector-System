@@ -50,7 +50,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    
     super.initState();
     mySLides = getSlides();
     controller = new PageController();
@@ -94,6 +93,7 @@ class _HomeState extends State<Home> {
         ),
         bottomSheet: slideIndex != 2
             ? Container(
+                color: Colors.amberAccent[700],
                 margin: EdgeInsets.symmetric(vertical: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,8 +108,7 @@ class _HomeState extends State<Home> {
                       child: Text(
                         "SKIP",
                         style: TextStyle(
-                            color: Colors.amberAccent[700],
-                            fontWeight: FontWeight.w600),
+                            color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                     ),
                     Container(
@@ -133,8 +132,7 @@ class _HomeState extends State<Home> {
                       child: Text(
                         "NEXT",
                         style: TextStyle(
-                            color: Colors.amberAccent[700],
-                            fontWeight: FontWeight.w600),
+                            color: Colors.white, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],
