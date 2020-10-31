@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plasma_donor/helper/constants.dart';
 import 'package:plasma_donor/services/auth.dart';
+import 'package:plasma_donor/views/homepage.dart';
 import 'package:plasma_donor/views/register.dart';
 
 import 'package:plasma_donor/widget/appBar.dart';
@@ -42,7 +43,7 @@ class _SignInState extends State<SignIn> {
           Constants.saveUserLoggedInSharedPreference(true);
 
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => RegisterPage(appAuth)));
+              MaterialPageRoute(builder: (context) => HomePage()));
 
           setState(() {
             _isLoading = false;

@@ -12,6 +12,7 @@ import 'package:plasma_donor/views/homepage.dart';
 
 class RegisterPage extends StatefulWidget {
   final FirebaseAuth appAuth;
+  static const routeName = '/register';
   RegisterPage(this.appAuth);
   @override
   _RegisterPageState createState() => _RegisterPageState();

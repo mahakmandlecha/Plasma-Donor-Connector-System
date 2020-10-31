@@ -13,12 +13,13 @@ import 'package:plasma_donor/utils/customWaveIndicator.dart';
 import 'package:plasma_donor/views/campaigns.dart';
 import 'package:plasma_donor/views/donors.dart';
 import 'package:plasma_donor/views/homepagefornews.dart';
+import 'package:plasma_donor/views/login_screen.dart';
 import 'package:plasma_donor/views/requestBlood.dart';
 import 'package:plasma_donor/views/signIn.dart';
-import 'package:plasma_donor/views/temp.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
+  static const routeName = '/home';
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     authService.signOut();
     Constants.saveUserLoggedInSharedPreference(false);
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => SignIn()));
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   Future<Null> _fetchUserInfo() async {
@@ -189,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.amberAccent[700],
               ),
               onTap: () {
-                signOut();
+                LoginScreen();
               },
             ),
           ],
