@@ -21,3 +21,11 @@ Problem Statement Link: http://bit.ly/vb3-ps
 ![2](https://user-images.githubusercontent.com/46178242/97776030-32b41980-1b8b-11eb-8977-ff85595bfa6b.jpeg)
 ![3](https://user-images.githubusercontent.com/46178242/97776031-33e54680-1b8b-11eb-9eb2-d482cf46b289.jpeg)
 
+6, 7, 8 commit images
+
+![WhatsApp Image 2020-10-31 at 20 34 03 (1)](https://user-images.githubusercontent.com/54450337/97787532-e5f72f80-1bd8-11eb-8498-955012d81d15.jpeg)
+![WhatsApp Image 2020-10-31 at 23 44 18](https://user-images.githubusercontent.com/54450337/97787537-ebed1080-1bd8-11eb-8674-403a0d3715f1.jpeg)
+![WhatsApp Image 2020-10-31 at 20 34 03](https://user-images.githubusercontent.com/54450337/97787542-f8716900-1bd8-11eb-8421-c2ce41107199.jpeg)
+![WhatsApp Image 2020-10-31 at 17 28 16](https://user-images.githubusercontent.com/54450337/97787547-fdceb380-1bd8-11eb-8421-6d2049e08703.jpeg)
+
+
