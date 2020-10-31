@@ -127,21 +127,13 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         elevation: 0.0,
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.amberAccent[700],
         title: Text(
           "Register",
-          style: TextStyle(
-            fontSize: 60.0,
-            fontFamily: "SouthernAire",
-            color: Colors.white,
-          ),
+          
         ),
       ),
-      body: ClipRRect(
-        borderRadius: new BorderRadius.only(
-            topLeft: const Radius.circular(40.0),
-            topRight: const Radius.circular(40.0)),
-        child: Container(
+      body: Container(
           height: 800.0,
           width: double.infinity,
           color: Colors.white,
@@ -160,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             hintText: 'Name',
                             icon: Icon(
                               FontAwesomeIcons.user,
-                              color: Color.fromARGB(1000, 221, 46, 68),
+                              color: Colors.amberAccent[700],
                             ),
                           ),
                           validator: (value) => value.isEmpty
@@ -176,7 +168,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             hintText: 'Email ID',
                             icon: Icon(
                               FontAwesomeIcons.envelope,
-                              color: Color.fromARGB(1000, 221, 46, 68),
+                              color: Colors.amberAccent[700],
                             ),
                           ),
                           validator: (value) => value.isEmpty
@@ -192,7 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             hintText: 'Password',
                             icon: Icon(
                               FontAwesomeIcons.userLock,
-                              color: Color.fromARGB(1000, 221, 46, 68),
+                              color: Colors.amberAccent[700],
                             ),
                           ),
                           obscureText: true,
@@ -208,8 +200,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           decoration: InputDecoration(
                             hintText: 'Address',
                             icon: Icon(
-                              FontAwesomeIcons.user,
-                              color: Color.fromARGB(1000, 221, 46, 68),
+                              FontAwesomeIcons.addressBook,
+                              color: Colors.amberAccent[700],
                             ),
                           ),
                           validator: (value) => value.isEmpty
@@ -226,7 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             hintText: 'Phone No.',
                             icon: Icon(
                               FontAwesomeIcons.phone,
-                              color: Color.fromARGB(1000, 221, 46, 68),
+                              color: Colors.amberAccent[700],
                             ),
                           ),
                           validator: (value) =>
@@ -241,9 +233,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               padding: EdgeInsets.only(top: 20.0),
                               child: DropdownButton(
                                 hint: Text(
-                                  'Please choose a Blood Group',
+                                  'Choose Blood Group',
                                   style: TextStyle(
-                                    color: Color.fromARGB(1000, 221, 46, 68),
+                                    color: Colors.black
                                   ),
                                 ),
                                 iconSize: 40.0,
@@ -269,7 +261,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
-                                color: Color.fromARGB(1000, 221, 46, 68),
+                                color: Colors.amberAccent[700],
                               ),
                             ),
                           ],
@@ -282,9 +274,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               padding: EdgeInsets.only(top: 20.0),
                               child: DropdownButton(
                                 hint: Text(
-                                  'choose availability',
+                                  'Are you available',
                                   style: TextStyle(
-                                    color: Color.fromARGB(1000, 221, 46, 68),
+                                    color: Colors.black,
                                   ),
                                 ),
                                 iconSize: 40.0,
@@ -310,7 +302,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
-                                color: Color.fromARGB(1000, 221, 46, 68),
+                                color: Colors.amberAccent[700],
                               ),
                             ),
                           ],
@@ -323,9 +315,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               padding: EdgeInsets.only(top: 20.0),
                               child: DropdownButton(
                                 hint: Text(
-                                  'choose gender',
+                                  'Choose gender',
                                   style: TextStyle(
-                                    color: Color.fromARGB(1000, 221, 46, 68),
+                                    color: Colors.black,
                                   ),
                                 ),
                                 iconSize: 40.0,
@@ -351,7 +343,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
-                                color: Color.fromARGB(1000, 221, 46, 68),
+                                color: Colors.amberAccent[700],
                               ),
                             ),
                           ],
@@ -361,7 +353,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         onPressed: () => validate_submit(context),
                         textColor: Colors.white,
                         padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                        color: Color.fromARGB(1000, 221, 46, 68),
+                        color: Colors.amberAccent[700],
                         child: Text("REGISTER"),
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0)),
@@ -373,7 +365,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
         ),
-      ),
+      
     );
   }
 }
