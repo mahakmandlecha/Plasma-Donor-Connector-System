@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:plasma_donor/data/data.dart';
+import 'package:plasma_donor/views/signIn.dart';
 //
 
 void main() => runApp(MyApp());
@@ -130,7 +131,9 @@ class _HomeState extends State<Home> {
           ),
         ): InkWell(
           onTap: (){
-            print("Get Started Now");
+             Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => SignIn()));
+
           },
           child: Container(
             height: 60,

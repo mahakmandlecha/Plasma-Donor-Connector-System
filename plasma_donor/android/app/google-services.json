@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "581726911850",
+    "firebase_url": "https://plasma-170d2.firebaseio.com",
+    "project_id": "plasma-170d2",
+    "storage_bucket": "plasma-170d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581726911850:android:9e7a9686c543427831f913",
+        "android_client_info": {
+          "package_name": "com.example.plasma_donor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581726911850-5t19edj7qank0mik2988iaglqjl2t74s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe0K76pQsO3UqcfXFqVRzUcfqYS6KqLoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581726911850-5t19edj7qank0mik2988iaglqjl2t74s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
