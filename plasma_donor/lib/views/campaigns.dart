@@ -1,11 +1,15 @@
-/*
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
+import 'package:plasma_donor/utils/customDialogs.dart';
 
 class CampaignsPage extends StatefulWidget {
   @override
@@ -117,19 +121,13 @@ class _CampaignsPageState extends State<CampaignsPage> {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(1000, 221, 46, 68),
       appBar: AppBar(
         elevation: 0.0,
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.amberAccent[700],
         title: Text(
-          "Campaigns",
-          style: TextStyle(
-            fontSize: 60.0,
-            fontFamily: "SouthernAire",
-            color: Colors.white,
-          ),
+          "Campaign",          
         ),
         leading: IconButton(
           icon: Icon(
@@ -139,22 +137,17 @@ class _CampaignsPageState extends State<CampaignsPage> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: ClipRRect(
-        borderRadius: new BorderRadius.only(
-            topLeft: const Radius.circular(40.0),
-            topRight: const Radius.circular(40.0)),
-        child: Container(
+      body: Container(
           height: 800.0,
           width: double.infinity,
           color: Colors.white,
         ),
-      ),
-      floatingActionButton: Align(
+            floatingActionButton: Align(
         alignment: Alignment.bottomRight,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: FloatingActionButton(
-            backgroundColor: Color.fromARGB(1000, 221, 46, 68),
+            backgroundColor: Colors.amberAccent[700],
             child: Icon(
               FontAwesomeIcons.pen,
               color: Colors.white,
@@ -268,4 +261,3 @@ class _CampaignsPageState extends State<CampaignsPage> {
     );
   }
 }
-*/

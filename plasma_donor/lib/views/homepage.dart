@@ -10,7 +10,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plasma_donor/helper/constants.dart';
 import 'package:plasma_donor/services/auth.dart';
 import 'package:plasma_donor/utils/customWaveIndicator.dart';
+import 'package:plasma_donor/views/campaigns.dart';
+import 'package:plasma_donor/views/donors.dart';
 import 'package:plasma_donor/views/homepagefornews.dart';
+import 'package:plasma_donor/views/requestBlood.dart';
 import 'package:plasma_donor/views/signIn.dart';
 import 'package:plasma_donor/views/temp.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -139,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Temp())); //DonorsPage()));
+                        builder: (context) => DonorsPage()));
               },
             ),
             ListTile(
@@ -149,7 +152,10 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.amberAccent[700],
               ),
               onTap: () {
-                //
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RequestBlood(112,121)));
               },
             ),
             ListTile(
@@ -162,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Temp())); // CampaignsPage()));
+                        builder: (context) => CampaignsPage()));
               },
             ),
             ListTile(
