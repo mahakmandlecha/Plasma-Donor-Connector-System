@@ -1,11 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plasma_donor/helper/constants.dart';
 import 'package:plasma_donor/services/auth.dart';
-import 'package:plasma_donor/views/temp.dart';
+import 'package:plasma_donor/views/register.dart';
+
+
+
 import 'package:plasma_donor/widget/appBar.dart';
 
-import 'Home.dart';
+
 
 class SignIn extends StatefulWidget {
   @override
@@ -27,7 +31,7 @@ class _SignInState extends State<SignIn> {
 
   bool _isLoading = false;
   AuthService authService = new AuthService();
-
+  final FirebaseAuth appAuth = FirebaseAuth.instance;
   signIn() async {
     if (_formkey.currentState.validate()) {
       setState(() {
@@ -42,7 +46,7 @@ class _SignInState extends State<SignIn> {
           Constants.saveUserLoggedInSharedPreference(true);
 
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Temp()));
+              context, MaterialPageRoute(builder: (context) => RegisterPage(appAuth)));
 
           setState(() {
             _isLoading = false;

@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "GoogleSans",
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.amberAccent[600],
       ),
       home:Home(),
     );
@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     mySLides = getSlides();
     controller = new PageController();
