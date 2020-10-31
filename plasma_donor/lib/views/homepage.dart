@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_sms/flutter_sms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -326,15 +327,16 @@ class _HomePageState extends State<HomePage> {
   
   }
 
+    void _sendSMS() async {
+
     String message = "This is a test message!";
     List<String> recipents = ["1234567890", "5556787676"];
 
-    void _sendSMS(String message, List<String> recipents) async {
-     // String _result = await sendSMS(message: message, recipients: recipents)
-       //   .catchError((onError) {
-       // print(onError);
-      //});
-      //print(_result);
+      String _result = await sendSMS(message: message, recipients: recipents)
+          .catchError((onError) {
+        print(onError);
+      });
+      print(_result);
     }
 
   Widget myDetailsContainer1(String restaurantName) {
@@ -395,7 +397,7 @@ class _HomePageState extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                _sendSMS(message, recipents);
+                _sendSMS();
               },
               child: Container(
                 child: Icon(
