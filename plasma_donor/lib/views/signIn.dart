@@ -5,11 +5,7 @@ import 'package:plasma_donor/helper/constants.dart';
 import 'package:plasma_donor/services/auth.dart';
 import 'package:plasma_donor/views/register.dart';
 
-
-
 import 'package:plasma_donor/widget/appBar.dart';
-
-
 
 class SignIn extends StatefulWidget {
   @override
@@ -45,8 +41,8 @@ class _SignInState extends State<SignIn> {
           });
           Constants.saveUserLoggedInSharedPreference(true);
 
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => RegisterPage(appAuth)));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => RegisterPage(appAuth)));
 
           setState(() {
             _isLoading = false;
@@ -125,7 +121,7 @@ class _SignInState extends State<SignIn> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 20),
                               decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  color: Colors.amberAccent[700],
                                   borderRadius: BorderRadius.circular(30)),
                               child: Text(
                                 "Sign In",
