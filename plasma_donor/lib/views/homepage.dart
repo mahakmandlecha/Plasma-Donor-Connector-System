@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Colors.amberAccent[700],
         title: Text(
-          "Register",
+          "India",
         ),
       ),
       drawer: Drawer(
