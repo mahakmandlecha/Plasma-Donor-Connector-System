@@ -22,6 +22,7 @@ class HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
+            color: Colors.white,
             icon: Icon(FontAwesomeIcons.arrowLeft),
             onPressed: () {
               //
@@ -30,6 +31,7 @@ class HomePageState extends State<HomePage> {
         title: Text("New York"),
         actions: <Widget>[
           IconButton(
+              color: Colors.white,
               icon: Icon(FontAwesomeIcons.search),
               onPressed: () {
                 //
@@ -51,7 +53,7 @@ class HomePageState extends State<HomePage> {
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
-          icon: Icon(FontAwesomeIcons.searchMinus, color: Color(0xff6200ee)),
+          icon: Icon(FontAwesomeIcons.searchMinus, color: Colors.black),
           onPressed: () {
             zoomVal--;
             _minus(zoomVal);
@@ -63,7 +65,7 @@ class HomePageState extends State<HomePage> {
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-          icon: Icon(FontAwesomeIcons.searchPlus, color: Color(0xff6200ee)),
+          icon: Icon(FontAwesomeIcons.searchPlus, color: Colors.black),
           onPressed: () {
             zoomVal++;
             _plus(zoomVal);
