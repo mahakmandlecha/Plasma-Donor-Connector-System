@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Colors.amberAccent[700],
         title: Text(
-          "Register",
+          "India",
         ),
       ),
       drawer: Drawer(
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Home"),
               leading: Icon(
                 FontAwesomeIcons.home,
-                 color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 Navigator.push(context,
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Blood Donors"),
               leading: Icon(
                 FontAwesomeIcons.handshake,
-                  color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 Navigator.push(
@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Blood Requests"),
               leading: Icon(
                 FontAwesomeIcons.burn,
-                 color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 //
@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Campaigns"),
               leading: Icon(
                 FontAwesomeIcons.ribbon,
-                 color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 Navigator.push(
@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Logout"),
               leading: Icon(
                 FontAwesomeIcons.signOutAlt,
-                  color: Colors.amberAccent[700],
+                color: Colors.amberAccent[700],
               ),
               onTap: () {
                 signOut();
