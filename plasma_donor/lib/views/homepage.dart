@@ -14,6 +14,7 @@ import 'package:plasma_donor/views/campaigns.dart';
 import 'package:plasma_donor/views/donors.dart';
 import 'package:plasma_donor/views/homepagefornews.dart';
 import 'package:plasma_donor/views/login_screen.dart';
+import 'package:plasma_donor/views/request.dart';
 import 'package:plasma_donor/views/requestBlood.dart';
 import 'package:plasma_donor/views/signIn.dart';
 import 'package:plasma_donor/views/signup_screen.dart';
@@ -155,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RequestBlood(112, 121)));
+                        builder: (context) => GeoCode()));
               },
             ),
             ListTile(
