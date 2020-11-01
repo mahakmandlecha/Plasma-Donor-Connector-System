@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +9,7 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:plasma_donor/utils/customDialogs.dart';
+import 'package:plasma_donor/utils/customWaveIndicator.dart';
 
 class CampaignsPage extends StatefulWidget {
   @override
@@ -17,13 +17,56 @@ class CampaignsPage extends StatefulWidget {
 }
 
 class _CampaignsPageState extends State<CampaignsPage> {
+  List<String> organizationNames = [];
+  List<String> desc = [];
+  List<String> path = [];
+  Widget _child;
   FirebaseUser currentUser;
   final formkey = new GlobalKey<FormState>();
   String _text, _name;
   @override
   void initState() {
-    super.initState();
     _loadCurrentUser();
+    _child = WaveIndicator();
+    getData();
+    super.initState();
+  }
+
+  Future<Null> getData() async {
+    await Firestore.instance
+        .collection('Campaign Details')
+        .getDocuments()
+        .then((docs) {
+      if (docs.documents.isNotEmpty) {
+        for (int i = 0; i < docs.documents.length; ++i) {
+          organizationNames.add(docs.documents[i].data['name']);
+          desc.add(docs.documents[i].data['content']);
+          path.add(docs.documents[i].data['image']);
+        }
+      }
+    });
+    setState(() {
+      _child = myWidget();
+    });
+  }
+
+  Widget myWidget() {
+    return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Colors.yellow[100],
+          Colors.blue[50],
+        ])),
+        child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: ListView.builder(
+                itemCount: organizationNames.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text(organizationNames[index]),
+                    subtitle: Text(desc[index]),
+                  );
+                })));
   }
 
   bool isLoggedIn() {
@@ -82,7 +125,8 @@ class _CampaignsPageState extends State<CampaignsPage> {
           );
         });
   }
- File _image;
+
+  File _image;
   String _path;
 
   Future getImage(bool isCamera) async {
@@ -113,6 +157,7 @@ class _CampaignsPageState extends State<CampaignsPage> {
     String downloadUrl = await taskSnapshot.ref.getDownloadURL();
     return downloadUrl;
   }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -127,7 +172,7 @@ class _CampaignsPageState extends State<CampaignsPage> {
         centerTitle: true,
         backgroundColor: Colors.amberAccent[700],
         title: Text(
-          "Campaign",          
+          "Campaign",
         ),
         leading: IconButton(
           icon: Icon(
@@ -137,12 +182,8 @@ class _CampaignsPageState extends State<CampaignsPage> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: Container(
-          height: 800.0,
-          width: double.infinity,
-          color: Colors.white,
-        ),
-            floatingActionButton: Align(
+      body: _child,
+      floatingActionButton: Align(
         alignment: Alignment.bottomRight,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -198,28 +239,28 @@ class _CampaignsPageState extends State<CampaignsPage> {
                               maxLength: 120,
                             ),
                           ),
-                         Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        IconButton(
-                            icon: Icon(Icons.camera_alt),
-                            onPressed: () {
-                              getImage(true);
-                            }),
-                        IconButton(
-                            icon: Icon(Icons.filter),
-                            onPressed: () {
-                              getImage(false);
-                            }),
-                      ],
-                    ),
-                    _image == null
-                        ? Container()
-                        : Image.file(
-                            _image,
-                            height: 150.0,
-                            width: 150.0,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              IconButton(
+                                  icon: Icon(Icons.camera_alt),
+                                  onPressed: () {
+                                    getImage(true);
+                                  }),
+                              IconButton(
+                                  icon: Icon(Icons.filter),
+                                  onPressed: () {
+                                    getImage(false);
+                                  }),
+                            ],
                           ),
+                          _image == null
+                              ? Container()
+                              : Image.file(
+                                  _image,
+                                  height: 150.0,
+                                  width: 150.0,
+                                ),
                         ],
                       ),
                     ),
@@ -227,10 +268,10 @@ class _CampaignsPageState extends State<CampaignsPage> {
                   actions: <Widget>[
                     RaisedButton(
                       color: Color.fromARGB(1000, 221, 46, 68),
-                      onPressed: ()async {
+                      onPressed: () async {
                         if (!formkey.currentState.validate()) return;
                         formkey.currentState.save();
-                         CustomDialogs.progressDialog(
+                        CustomDialogs.progressDialog(
                             context: context, message: 'Uploading');
                         var url = await uploadImage();
                         Navigator.of(context).pop();

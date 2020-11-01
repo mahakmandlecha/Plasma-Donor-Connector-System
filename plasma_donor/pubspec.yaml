@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   google_maps_flutter: ^1.0.5
   geolocator: ^5.1.2
+  geocoder: ^0.2.1
   font_awesome_flutter: ^8.10.0
   image_picker: ^0.6.7+12
   flutter_sms: ^2.0.0
