@@ -57,6 +57,7 @@ class _HomePageState extends State<HomePage> {
     _fetchUserInfo();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -66,6 +67,7 @@ class _HomePageState extends State<HomePage> {
     ));
     return _child;
   }
+
   Widget _myWidget() {
     return Scaffold(
       backgroundColor: Color.fromARGB(1000, 221, 46, 68),
@@ -138,8 +140,10 @@ class _HomePageState extends State<HomePage> {
                 color: Color.fromARGB(1000, 221, 46, 68),
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RequestBlood(112,121)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RequestBlood(112, 121)));
               },
             ),
             ListTile(
@@ -162,9 +166,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () async {
                 await FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SignIn()));
+                    context, MaterialPageRoute(builder: (context) => SignIn()));
               },
             ),
           ],

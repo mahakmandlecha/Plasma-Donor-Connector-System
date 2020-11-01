@@ -16,6 +16,7 @@ import 'package:plasma_donor/views/homepagefornews.dart';
 import 'package:plasma_donor/views/login_screen.dart';
 import 'package:plasma_donor/views/requestBlood.dart';
 import 'package:plasma_donor/views/signIn.dart';
+import 'package:plasma_donor/views/signup_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -186,7 +187,8 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.amberAccent[700],
               ),
               onTap: () {
-                LoginScreen();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
               },
             ),
           ],
@@ -252,7 +254,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://www.google.com/search?q=single+person+icon+vector&tbm=isch&ved=2ahUKEwiW9d-80N_sAhUIjEsFHYEeBbkQ2-cCegQIABAA&oq=single+person+icon+vector&gs_lcp=CgNpbWcQAzoGCAAQBxAeOggIABAIEAcQHlCfR1iOUmDgU2gAcAB4AIABmgKIAf0JkgEFMC42LjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=c8OdX9bvGYiYrtoPgb2UyAs&bih=698&biw=1536&safe=active#imgrc=BDQSbICXyopdRM",
+                  "https://images.unsplash.com/photo-1504940892017-d23b9053d5d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                   22.7196,
                   75.8577,
                   "Mradul Rathore"),
@@ -261,7 +263,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://www.google.com/search?q=single+person+icon+vector&tbm=isch&ved=2ahUKEwiW9d-80N_sAhUIjEsFHYEeBbkQ2-cCegQIABAA&oq=single+person+icon+vector&gs_lcp=CgNpbWcQAzoGCAAQBxAeOggIABAIEAcQHlCfR1iOUmDgU2gAcAB4AIABmgKIAf0JkgEFMC42LjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=c8OdX9bvGYiYrtoPgb2UyAs&bih=698&biw=1536&safe=active#imgrc=PktHqinZEcRA_M",
+                  "https://lh5.googleusercontent.com/p/AF1QipMKRN-1zTYMUVPrH-CcKzfTo6Nai7wdL7D8PMkt=w340-h160-k-no",
                   23.2599,
                   77.4126,
                   "Ritik Jain"),
@@ -269,7 +271,10 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _boxes("assets/illustration3.PNG", 23.1765, 75.7885,
+              child: _boxes(
+                  "https://images.unsplash.com/photo-1504940892017-d23b9053d5d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                  23.1765,
+                  75.7885,
                   "Mahak Mandlecha"),
             ),
           ],
