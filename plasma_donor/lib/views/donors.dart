@@ -42,20 +42,20 @@ class _DonorsPageState extends State<DonorsPage> {
       _child = myWidget();
     });
   }
-  void _sendSMS(number) async {
+  void _sendSMS(num) async {
 
-    String message = "This is a test message!";
+    String message = "Hello! I'm in need of blood donor";
   
-
-      String _result = await sendSMS(message: message, recipients: number)
+    List<String> recipents = ["1234567890"];
+      String _result = await sendSMS(message: message, recipients: recipents)
           .catchError((onError) {
         print(onError);
       });
       print(_result);
     }
 
-_makingPhoneCall(number) async {
-    var url = "tel:"+number;
+_makingPhoneCall(num) async {
+    var url = "tel:"+num;
     if (await canLaunch(url)) {
       await launch(url);
     } else {
