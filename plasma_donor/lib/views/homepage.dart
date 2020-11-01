@@ -140,10 +140,8 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.amberAccent[700],
               ),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DonorsPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DonorsPage()));
               },
             ),
             ListTile(
@@ -156,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RequestBlood(112,121)));
+                        builder: (context) => RequestBlood(112, 121)));
               },
             ),
             ListTile(
@@ -166,10 +164,8 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.amberAccent[700],
               ),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CampaignsPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CampaignsPage()));
               },
             ),
             ListTile(
@@ -256,7 +252,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://lh5.googleusercontent.com/p/AF1QipO3VPL9m-b355xWeg4MXmOQTauFAEkavSluTtJU=w225-h160-k-no",
+                  "https://www.google.com/search?q=single+person+icon+vector&tbm=isch&ved=2ahUKEwiW9d-80N_sAhUIjEsFHYEeBbkQ2-cCegQIABAA&oq=single+person+icon+vector&gs_lcp=CgNpbWcQAzoGCAAQBxAeOggIABAIEAcQHlCfR1iOUmDgU2gAcAB4AIABmgKIAf0JkgEFMC42LjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=c8OdX9bvGYiYrtoPgb2UyAs&bih=698&biw=1536&safe=active#imgrc=BDQSbICXyopdRM",
                   22.7196,
                   75.8577,
                   "Mradul Rathore"),
@@ -265,7 +261,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://lh5.googleusercontent.com/p/AF1QipMKRN-1zTYMUVPrH-CcKzfTo6Nai7wdL7D8PMkt=w340-h160-k-no",
+                  "https://www.google.com/search?q=single+person+icon+vector&tbm=isch&ved=2ahUKEwiW9d-80N_sAhUIjEsFHYEeBbkQ2-cCegQIABAA&oq=single+person+icon+vector&gs_lcp=CgNpbWcQAzoGCAAQBxAeOggIABAIEAcQHlCfR1iOUmDgU2gAcAB4AIABmgKIAf0JkgEFMC42LjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=c8OdX9bvGYiYrtoPgb2UyAs&bih=698&biw=1536&safe=active#imgrc=PktHqinZEcRA_M",
                   23.2599,
                   77.4126,
                   "Ritik Jain"),
@@ -273,10 +269,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://images.unsplash.com/photo-1504940892017-d23b9053d5d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                  23.1765,
-                  75.7885,
+              child: _boxes("assets/illustration3.PNG", 23.1765, 75.7885,
                   "Mahak Mandlecha"),
             ),
           ],
@@ -331,20 +324,18 @@ class _HomePageState extends State<HomePage> {
     } else {
       throw 'Could not launch $url';
     }
-  
   }
 
-    void _sendSMS() async {
-
+  void _sendSMS() async {
     String message = "This is a test message!";
     List<String> recipents = ["1234567890", "5556787676"];
 
-      String _result = await sendSMS(message: message, recipients: recipents)
-          .catchError((onError) {
-        print(onError);
-      });
-      print(_result);
-    }
+    String _result = await sendSMS(message: message, recipients: recipents)
+        .catchError((onError) {
+      print(onError);
+    });
+    print(_result);
+  }
 
   Widget myDetailsContainer1(String restaurantName) {
     return Column(
@@ -379,10 +370,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 _makingPhoneCall();
               },
-                          child: Container(
+              child: Container(
                 child: Icon(
                   FontAwesomeIcons.phone,
                   color: Colors.white,
@@ -391,10 +382,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 _makingPhoneCall();
               },
-                          child: Container(
+              child: Container(
                 child: Icon(
                   FontAwesomeIcons.phone,
                   color: Colors.white,
@@ -437,7 +428,7 @@ class _HomePageState extends State<HomePage> {
       child: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition:
-            CameraPosition(target: LatLng(40.712776, -74.005974), zoom: 12),
+            CameraPosition(target: LatLng(22.7196, 75.8577), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },

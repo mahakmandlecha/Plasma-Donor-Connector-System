@@ -1,5 +1,3 @@
-
-
 class SliderModel {
   String imageAssetPath;
   String title;
