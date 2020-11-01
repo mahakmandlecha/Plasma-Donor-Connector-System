@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:plasma_donor/models/authentication.dart';
 import 'package:plasma_donor/views/homepage.dart';
 import 'package:plasma_donor/views/onboarding_screen.dart';
+import 'package:plasma_donor/views/register.dart';
 import 'package:provider/provider.dart';
 import 'package:plasma_donor/views/login_screen.dart';
 
@@ -17,28 +19,30 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final FirebaseAuth appAuth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: Authentication(),
-        )
-      ],
-      child: MaterialApp(
-      title: 'Plasma',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: "GoogleSans",
-        primarySwatch: Colors.amberAccent[600],
-      ),
-      home: Home(),
-      routes: {
-         SignupScreen.routeName: (ctx) => SignupScreen(),
-          LoginScreen.routeName: (ctx) => LoginScreen(),
-          HomePage.routeName: (ctx) => HomePage(),
-          Home.routeName: (ctx) => Home(),
-      },
-    ));
+        providers: [
+          ChangeNotifierProvider.value(
+            value: Authentication(),
+          )
+        ],
+        child: MaterialApp(
+          title: 'Plasma',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            fontFamily: "GoogleSans",
+            primarySwatch: Colors.amberAccent[600],
+          ),
+          home: Home(),
+          routes: {
+            SignupScreen.routeName: (ctx) => SignupScreen(),
+            LoginScreen.routeName: (ctx) => LoginScreen(),
+            RegisterPage.routeName: (ctx) => RegisterPage(this.appAuth),
+            HomePage.routeName: (ctx) => HomePage(),
+            Home.routeName: (ctx) => Home(),
+          },
+        ));
   }
 }

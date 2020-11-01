@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plasma_donor/views/homepage.dart';
+import 'package:plasma_donor/views/register.dart';
 
 import 'package:provider/provider.dart';
 import '../models/authentication.dart';
@@ -44,7 +45,7 @@ class _SignupScreenState extends State<SignupScreen> {
     try {
       await Provider.of<Authentication>(context, listen: false)
           .signUp(_authData['email'], _authData['password']);
-      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+      Navigator.of(context).pushReplacementNamed(RegisterPage.routeName);
     } catch (error) {
       var errorMessage = 'Authentication Failed. Please try again later.';
       _showErrorDialog(errorMessage);
