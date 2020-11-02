@@ -30,3 +30,4 @@ Hyperlocal filtering
     Then open the folder in Visual Studio Code(recommended) or Android Studio.  
     IDE will do pub get automatically, but in case it doesn't, run the following command: flutter pub get   
     Also, add your own Firebase, Google Maps, and News API key.  
+<img src="/plasma_doner/Gif/1 (1).mp4" height="600" width="auto">
