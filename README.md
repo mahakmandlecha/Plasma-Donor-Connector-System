@@ -36,7 +36,7 @@ Hyperlocal filtering
 Here are some gif of our project
 
 
-|                   ONBOARDIN                      |                   SIGNUP/SIGNIN                    |                 REGISTER                 |
+|                   ONBOARDING                      |                   SIGNUP/SIGNIN                    |                 REGISTER                 |
 | :-------------------------------------------: | :----------------------------------------------: | :------------------------------------------: |
 |  <img src="plasma_donor/Gif/1.gif" height="auto" width="auto">  |  <img src="plasma_donor/Gif/2.gif" height="auto" width="auto">  |  <img src="plasma_donor/Gif/3.gif" height="auto" width="auto">  |
 
