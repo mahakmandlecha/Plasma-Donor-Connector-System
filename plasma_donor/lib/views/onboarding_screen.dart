@@ -1,7 +1,8 @@
 
 import 'package:plasma_donor/data/data.dart';
 import 'package:flutter/material.dart';
-import 'package:plasma_donor/views/signup_screen.dart';
+
+import 'package:plasma_donor/views/welcome_screen.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home_onboard';
@@ -119,7 +120,7 @@ class _HomeState extends State<Home> {
             : InkWell(
                 onTap: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SignupScreen()));
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()));
                 },
                 child: Container(
                   height: 60,

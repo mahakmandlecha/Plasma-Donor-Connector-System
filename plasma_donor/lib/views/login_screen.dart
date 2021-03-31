@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plasma_donor/views/homepage.dart';
 import 'package:provider/provider.dart';
 
-import 'signup_screen.dart';
+
 
 import '../models/authentication.dart';
 
@@ -54,19 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
-        actions: <Widget>[
-          FlatButton(
-            child: Row(
-              children: <Widget>[Text('Signup'), Icon(Icons.person_add)],
-            ),
-            textColor: Colors.white,
-            onPressed: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(SignupScreen.routeName);
-            },
-          )
-        ],
+        centerTitle: true,
+        backgroundColor: Colors.amberAccent[700],
+        title: Text('Login'),        
       ),
       body: Stack(
         children: <Widget>[

@@ -7,8 +7,7 @@ import 'package:plasma_donor/views/register.dart';
 import 'package:provider/provider.dart';
 import 'package:plasma_donor/views/login_screen.dart';
 
-import 'package:plasma_donor/views/signup_screen.dart';
-//
+
 
 void main() => runApp(MyApp());
 
@@ -37,7 +36,6 @@ class _MyAppState extends State<MyApp> {
           ),
           home: Home(),
           routes: {
-            SignupScreen.routeName: (ctx) => SignupScreen(),
             LoginScreen.routeName: (ctx) => LoginScreen(),
             RegisterPage.routeName: (ctx) => RegisterPage(this.appAuth),
             HomePage.routeName: (ctx) => HomePage(),

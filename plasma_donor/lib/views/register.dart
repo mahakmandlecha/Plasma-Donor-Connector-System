@@ -33,6 +33,11 @@ class _RegisterPageState extends State<RegisterPage> {
   String _bloodGroupSelected = '';
   bool _categorySelected = false;
   bool _genderCategorySelected = false;
+
+  TextEditingController _passwordController = new TextEditingController();
+
+  Map<String, String> _authData = {'email': '', 'password': ''};
+
   bool isLoggedIn() {
     if (FirebaseAuth.instance.currentUser() != null) {
       return true;
@@ -73,6 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 .createUserWithEmailAndPassword(
                     email: _email, password: _password))
             .user;
+
         Navigator.pop(context);
         print('Registered User: ${user.uid}');
         final Map<String, dynamic> UserDetails = {
@@ -113,6 +119,13 @@ class _RegisterPageState extends State<RegisterPage> {
             });
       }
     }
+  }
+
+  bool validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    return (!regex.hasMatch(value)) ? false : true;
   }
 
   @override
@@ -169,27 +182,47 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.amberAccent[700],
                           ),
                         ),
-                        validator: (value) => value.isEmpty
-                            ? "Email ID field can't be empty"
-                            : null,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (val) {
+                          return validateEmail(val)
+                              ? null
+                              : "Enter correct email";
+                        },
                         onSaved: (value) => _email = value,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          icon: Icon(
-                            FontAwesomeIcons.userLock,
-                            color: Colors.amberAccent[700],
-                          ),
-                        ),
+                        decoration: InputDecoration(labelText: 'Password'),
                         obscureText: true,
-                        validator: (value) => value.isEmpty
-                            ? "Password field can't be empty"
-                            : null,
-                        onSaved: (value) => _password = value,
+                        controller: _passwordController,
+                        validator: (value) {
+                          if (value.isEmpty || value.length <= 5) {
+                            return 'password must be atleast 6 characters';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _password = value;
+                          _authData['password'] = value;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: TextFormField(
+                        decoration:
+                            InputDecoration(labelText: 'Confirm Password'),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value.isEmpty ||
+                              value != _passwordController.text) {
+                            return "password doesn't match";
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {},
                       ),
                     ),
                     Padding(
@@ -219,8 +252,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.amberAccent[700],
                           ),
                         ),
-                        validator: (value) =>
-                            value.isEmpty ? "Phone no. can't be empty" : null,
+                        validator: (value) => value.length != 10
+                            ? "Enter valid phone number"
+                            : null,
                         onSaved: (value) => _phoneNumber = value,
                       ),
                     ),
