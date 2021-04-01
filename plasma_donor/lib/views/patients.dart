@@ -6,18 +6,18 @@ import 'package:plasma_donor/utils/customWaveIndicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 //
 
-
 class DonorsPage extends StatefulWidget {
   @override
   _DonorsPageState createState() => _DonorsPageState();
 }
 
 class _DonorsPageState extends State<DonorsPage> {
-  List<String> donors = [];
+  List<String> patients = [];
   List<String> bloodgroup = [];
   List<String> number = [];
   List<String> gender = [];
   List<String> address = [];
+  List<String> age = [];
   Widget _child;
 
   @override
@@ -34,12 +34,12 @@ class _DonorsPageState extends State<DonorsPage> {
         .then((docs) {
       if (docs.documents.isNotEmpty) {
         for (int i = 0; i < docs.documents.length; ++i) {
-          donors.add(docs.documents[i].data['name']);
+          patients.add(docs.documents[i].data['name']);
           bloodgroup.add(docs.documents[i].data['bloodGroup']);
           number.add(docs.documents[i].data['phone']);
-          // gender.add(docs.documents[i].data['gender']);
-          // address.add(docs.documents[i].data['address']);
-
+          gender.add(docs.documents[i].data['gender']);
+          address.add(docs.documents[i].data['address']);
+          age.add(docs.documents[i].data['age']);
         }
       }
     });
@@ -47,26 +47,25 @@ class _DonorsPageState extends State<DonorsPage> {
       _child = myWidget();
     });
   }
+
   void _sendSMS(num) async {
+    String message = "Hello! I'm willing to donate plasma. You can contact me on the same number.";
 
-    String message = "Hello! I'm in need of blood donor";
-  
-    List<String> recipents = ["1234567890"];
-      String _result = await sendSMS(message: message, recipients: recipents)
-          .catchError((onError) {
-        print(onError);
-      });
-      print(_result);
-    }
+    List<String> recipents = [num];
+    String _result = await sendSMS(message: message, recipients: recipents)
+        .catchError((onError) {
+      print(onError);
+    });
+    print(_result);
+  }
 
-_makingPhoneCall(num) async {
-    var url = "tel:"+num;
+  _makingPhoneCall(num) async {
+    var url = "tel:" + num;
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
     }
-  
   }
 
   Widget myWidget() {
@@ -79,7 +78,7 @@ _makingPhoneCall(num) async {
         title: Text(
           "India",
         ),
-         leading: IconButton(
+        leading: IconButton(
           icon: Icon(
             FontAwesomeIcons.reply,
             color: Colors.white,
@@ -88,51 +87,55 @@ _makingPhoneCall(num) async {
         ),
       ),
       body: Container(
-          height: 800.0,
-          width: double.infinity,
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-              itemCount: donors.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(donors[index]),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: IconButton(
+        height: 800.0,
+        width: double.infinity,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView.builder(
+            itemCount: patients.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 80.0,
+                  child: Card(
+                    elevation: 5.0,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        child: Text(
+                          bloodgroup[index],
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.amberAccent[700],
+                      ),
+                      title: Text('${patients[index]} | ${age[index]}'),
+                      subtitle: Text(address[index]),
+                      trailing: Wrap(spacing: 12, children: <Widget>[
+                        IconButton(
                           icon: Icon(Icons.message),
                           onPressed: () {
                             _sendSMS(number[index]);
                           },
                           color: Colors.amberAccent[700],
+                        ),                       
+                        IconButton(
+                          icon: Icon(Icons.phone),
+                          onPressed: () {
+                            _makingPhoneCall(number[index]);
+                          },
+                          color: Colors.amberAccent[700],
                         ),
-                      ),
-                    ],
-                  ),
-                  leading: CircleAvatar(
-                    child: Text(
-                      bloodgroup[index],
-                      style: TextStyle(color: Colors.white),
+                       
+                      ]),
                     ),
-                    backgroundColor: Colors.amberAccent[700],
                   ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.phone),
-                    onPressed: () {
-                      _makingPhoneCall(number[index]);
-                    },
-                    color: Colors.amberAccent[700],
-                  ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ),
-      
+      ),
     );
   }
 

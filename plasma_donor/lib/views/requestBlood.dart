@@ -16,14 +16,15 @@ class RequestBlood extends StatefulWidget {
 class _RequestBloodState extends State<RequestBlood> {
   final formkey = new GlobalKey<FormState>();
   List<String> _bloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
-  List<String> _gender = ['Male','Female','Other'];
+  List<String> _gender = ['Male', 'Female', 'Other'];
   String _selectedGender = '';
   String _selectedBloodGroup = '';
   String _qty;
   String _phone;
   String _address;
   String _name;
-  
+  String _age;
+
   DateTime selectedDate = DateTime.now();
   var formattedDate;
   int flag = 0;
@@ -114,7 +115,7 @@ class _RequestBloodState extends State<RequestBlood> {
     _address = placemark[0].name.toString() +
         "," +
         placemark[0].locality.toString() +
-        ", Postal Code:" +
+        "," +
         placemark[0].postalCode.toString();
   }
 
@@ -123,6 +124,7 @@ class _RequestBloodState extends State<RequestBlood> {
     return Scaffold(
       backgroundColor: Color.fromARGB(1000, 221, 46, 68),
       appBar: AppBar(
+        
         elevation: 0.0,
         centerTitle: true,
         backgroundColor: Colors.amberAccent[700],
@@ -130,10 +132,7 @@ class _RequestBloodState extends State<RequestBlood> {
           "Plasma Request",
         ),
         leading: IconButton(
-          icon: Icon(
-            FontAwesomeIcons.reply,
-            color: Colors.amberAccent[700]
-          ),
+          icon: Icon(FontAwesomeIcons.reply, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -171,8 +170,6 @@ class _RequestBloodState extends State<RequestBlood> {
                               onChanged: (newValue) {
                                 setState(() {
                                   _selectedBloodGroup = newValue;
-                                  
-
                                 });
                               },
                             ),
@@ -183,10 +180,9 @@ class _RequestBloodState extends State<RequestBlood> {
                           Text(
                             _selectedBloodGroup,
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              color: Colors.amberAccent[700]
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                                color: Colors.amberAccent[700]),
                           ),
                         ],
                       ),
@@ -213,7 +209,6 @@ class _RequestBloodState extends State<RequestBlood> {
                               onChanged: (newValue) {
                                 setState(() {
                                   _selectedGender = newValue;
-                                  
                                 });
                               },
                             ),
@@ -224,10 +219,9 @@ class _RequestBloodState extends State<RequestBlood> {
                           Text(
                             _selectedGender,
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              color: Colors.amberAccent[700]
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                                color: Colors.amberAccent[700]),
                           ),
                         ],
                       ),
@@ -251,77 +245,79 @@ class _RequestBloodState extends State<RequestBlood> {
                       padding: const EdgeInsets.all(18.0),
                       child: TextFormField(
                         decoration: InputDecoration(
+                          hintText: 'Age',
+                          icon: Icon(FontAwesomeIcons.sortNumericDown,
+                              color: Colors.amberAccent[700]),
+                        ),
+                        validator: (value) =>
+                            value.length == 0 || value.length > 2
+                                ? "Enter valid age"
+                                : null,
+                        onSaved: (value) => _age = value,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(
                           hintText: 'Quantity(units)',
-                          icon: Icon(
-                            FontAwesomeIcons.prescriptionBottle,
-                            color: Colors.amberAccent[700]
-                          ),
+                          icon: Icon(FontAwesomeIcons.prescriptionBottle,
+                              color: Colors.amberAccent[700]),
                         ),
                         validator: (value) {
                           int quantity = int.parse(value);
-                          if (value.isEmpty ) {
-                            return  "Quantity field can't be empty";
+                          if (value.isEmpty) {
+                            return "Quantity field can't be empty";
+                          } else if (quantity <= 0) {
+                            return "Quantity must be greater than zero";
+                          } else if (quantity > 9) {
+                            return "Quantity must be less than 10 units";
                           }
-                          else if(  quantity <=0)  {
-                            return  "Quantity must be greater than zero";
-                          }
-                          else if( quantity >9 ) {
-                            return  "Quantity must be less than 10 units";
-                          }                            
                           return null;
-                        },                        
+                        },
                         onSaved: (value) => _qty = value,
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    
-Padding(
+                    Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: TextFormField(
                         decoration: InputDecoration(
                           hintText: 'Address',
-                          icon: Icon(
-                            FontAwesomeIcons.mobile,
-                          color: Colors.amberAccent[700]
-                          ),
+                          icon: Icon(FontAwesomeIcons.addressBook,
+                              color: Colors.amberAccent[700]),
                         ),
                         validator: (value) => value.isEmpty
                             ? "Address field can't be empty"
                             : null,
                         onSaved: (value) => _phone = value,
-                        maxLength: 250,
                         keyboardType: TextInputType.streetAddress,
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: TextFormField(
                         decoration: InputDecoration(
                           hintText: 'Phone Number',
-                          icon: Icon(
-                            FontAwesomeIcons.mobile,
-                          color: Colors.amberAccent[700]
-                          ),
+                          icon: Icon(FontAwesomeIcons.mobile,
+                              color: Colors.amberAccent[700]),
                         ),
-                        validator: (value) => value.isEmpty
+                        validator: (value) => value.length != 10
                             ? "Phone Number field can't be empty"
                             : null,
                         onSaved: (value) => _phone = value,
-                        maxLength: 10,
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: <Widget>[
                           IconButton(
-                            onPressed: () => _selectDate(context),
-                            icon: Icon(FontAwesomeIcons.calendar),
-                           color: Colors.amberAccent[700]
-                          ),
+                              onPressed: () => _selectDate(context),
+                              icon: Icon(FontAwesomeIcons.calendar),
+                              color: Colors.amberAccent[700]),
                           flag == 0
                               ? Text(
                                   "<< Pick up a Due Date",
@@ -341,7 +337,7 @@ Padding(
                         formkey.currentState.save();
                         final Map<String, dynamic> BloodRequestDetails = {
                           'uid': currentUser.uid,
-                          'name' : _name,
+                          'name': _name,
                           'bloodGroup': _selectedBloodGroup,
                           'gender': _selectedGender,
                           'quantity': _qty,
@@ -349,6 +345,7 @@ Padding(
                           'phone': _phone,
                           'location': new GeoPoint(widget._lat, widget._lng),
                           'address': _address,
+                          'age': _age
                         };
                         addData(BloodRequestDetails).then((result) {
                           dialogTrigger(context);
