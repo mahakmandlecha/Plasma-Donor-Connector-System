@@ -29,7 +29,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   FirebaseUser currentUser;
   Completer<GoogleMapController> _controller = Completer();
-  String _name, _bloodgrp, _email;
+  String _name, _bloodgrp, _email, _userSelected;
   Widget _child;
   AuthService authService = new AuthService();
   signOut() async {
@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage> {
       _name = _userInfo['name'];
       _email = _userInfo['email'];
       _bloodgrp = _userInfo['bloodgroup'];
+      _userSelected = _userInfo['user-type'];
       _child = _myWidget();
     });
   }
@@ -106,12 +107,13 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.amberAccent[700],
               ),
               accountName: Text(
-                currentUser == null ? "" : _name,
+                currentUser == null ? "" : _name + " | " + _userSelected,
                 style: TextStyle(
                   fontSize: 22.0,
                 ),
               ),
               accountEmail: Text(currentUser == null ? "" : _email),
+              
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Text(

@@ -23,16 +23,18 @@ class _RegisterPageState extends State<RegisterPage> {
   String _phoneNumber;
   String _address;
   String _name;
-  List<String> _availability = ['Yes', 'No'];
-  String _availabilitySelected = '';
-  List<String> _gender = ['Male', 'Female'];
+  
+  String _userSelected = '';
+  
+  List<String> _userType = ['Donor', 'Patient', 'Other']; 
   String _genderSelected = '';
+  List _gender = ["Male", "Female", "Others"];
 
   bool _availabilityCategorySelected = false;
   List<String> _bloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
   String _bloodGroupSelected = '';
   bool _categorySelected = false;
-  bool _genderCategorySelected = false;
+  
 
   TextEditingController _passwordController = new TextEditingController();
 
@@ -86,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
           'name': _name,
           'email': _email,
           'bloodgroup': _bloodGroupSelected,
-          'availability': _availabilitySelected,
+          'user-type': _userSelected,
           'mobile-number': _phoneNumber,
           'address': _address,
           'gender': _genderSelected,
@@ -126,6 +128,46 @@ class _RegisterPageState extends State<RegisterPage> {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
     return (!regex.hasMatch(value)) ? false : true;
+  }
+
+  Row addGenderRadioButton(int btnValue, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Radio(
+          activeColor: Colors.amberAccent[700],
+          value: _gender[btnValue],
+          groupValue: _genderSelected,
+          onChanged: (value) {
+            setState(() {
+              print(value);
+              _genderSelected = value;
+            });
+          },
+        ),
+        Text(title)
+      ],
+    );
+  }
+
+  Row addUserRadioButton(int btnValue, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Radio(
+          activeColor: Colors.amberAccent[700],
+          value: _userType[btnValue],
+          groupValue: _userSelected,
+          onChanged: (value) {
+            setState(() {
+              print(value);
+              _userSelected = value;
+            });
+          },
+        ),
+        Text(title)
+      ],
+    );
   }
 
   @override
@@ -194,7 +236,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Password'),
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          icon: Icon(
+                            FontAwesomeIcons.key,
+                            color: Colors.amberAccent[700],
+                          ),
+                        ),
                         obscureText: true,
                         controller: _passwordController,
                         validator: (value) {
@@ -212,8 +260,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: TextFormField(
-                        decoration:
-                            InputDecoration(labelText: 'Confirm Password'),
+                        decoration: InputDecoration(
+                          hintText: 'Confirm Password',
+                          icon: Icon(
+                            FontAwesomeIcons.key,
+                            color: Colors.amberAccent[700],
+                          ),
+                        ),
                         obscureText: true,
                         validator: (value) {
                           if (value.isEmpty ||
@@ -259,6 +312,26 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          addGenderRadioButton(0, 'Male'),
+                          addGenderRadioButton(1, 'Female'),
+                          addGenderRadioButton(2, 'Others'),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          addUserRadioButton(0, 'Donor'),
+                          addUserRadioButton(1, 'Patient'),
+                          addUserRadioButton(2, 'Others'),
+                        ],
+                      ),
+                    ),
+                    Container(
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -297,88 +370,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ],
                       ),
                     ),
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(top: 20.0),
-                            child: DropdownButton(
-                              hint: Text(
-                                'Are you available',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                              iconSize: 40.0,
-                              items: _availability.map((val) {
-                                return new DropdownMenuItem<String>(
-                                  value: val,
-                                  child: new Text(val),
-                                );
-                              }).toList(),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _availabilitySelected = newValue;
-                                  this._availabilityCategorySelected = true;
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            _availabilitySelected,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              color: Colors.amberAccent[700],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(top: 20.0),
-                            child: DropdownButton(
-                              hint: Text(
-                                'Choose gender',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                              iconSize: 40.0,
-                              items: _gender.map((val) {
-                                return new DropdownMenuItem<String>(
-                                  value: val,
-                                  child: new Text(val),
-                                );
-                              }).toList(),
-                              onChanged: (newValue) {
-                                setState(() {
-                                  _genderSelected = newValue;
-                                  this._genderCategorySelected = true;
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            _genderSelected,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              color: Colors.amberAccent[700],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    
                     RaisedButton(
                       onPressed: () => validate_submit(context),
                       textColor: Colors.white,

@@ -86,7 +86,7 @@ class _RequestBloodState extends State<RequestBlood> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Success'),
-            content: Text('Blood Request Submitted'),
+            content: Text('Plasma Request Submitted'),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
@@ -124,7 +124,7 @@ class _RequestBloodState extends State<RequestBlood> {
         centerTitle: true,
         backgroundColor: Colors.amberAccent[700],
         title: Text(
-          "Blood Request",
+          "Plasma Request",
         ),
         leading: IconButton(
           icon: Icon(
@@ -191,15 +191,25 @@ class _RequestBloodState extends State<RequestBlood> {
                       padding: const EdgeInsets.all(18.0),
                       child: TextFormField(
                         decoration: InputDecoration(
-                          hintText: 'Quantity(L)',
+                          hintText: 'Quantity(units)',
                           icon: Icon(
                             FontAwesomeIcons.prescriptionBottle,
                             color: Colors.amberAccent[700]
                           ),
                         ),
-                        validator: (value) => value.isEmpty
-                            ? "Quantity field can't be empty"
-                            : null,
+                        validator: (value) {
+                          int quantity = int.parse(value);
+                          if (value.isEmpty ) {
+                            return  "Quantity field can't be empty";
+                          }
+                          else if(  quantity <=0)  {
+                            return  "Quantity must be greater than zero";
+                          }
+                          else if( quantity >9 ) {
+                            return  "Quantity must be less than 10 units";
+                          }                            
+                          return null;
+                        },                        
                         onSaved: (value) => _qty = value,
                         keyboardType: TextInputType.number,
                       ),
