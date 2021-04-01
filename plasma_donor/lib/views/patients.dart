@@ -16,6 +16,8 @@ class _DonorsPageState extends State<DonorsPage> {
   List<String> donors = [];
   List<String> bloodgroup = [];
   List<String> number = [];
+  List<String> gender = [];
+  List<String> address = [];
   Widget _child;
 
   @override
@@ -27,14 +29,17 @@ class _DonorsPageState extends State<DonorsPage> {
 
   Future<Null> getDonors() async {
     await Firestore.instance
-        .collection('User Details')
+        .collection('Blood Request Details')
         .getDocuments()
         .then((docs) {
       if (docs.documents.isNotEmpty) {
         for (int i = 0; i < docs.documents.length; ++i) {
           donors.add(docs.documents[i].data['name']);
-          bloodgroup.add(docs.documents[i].data['bloodgroup']);
-          number.add(docs.documents[i].data['mobile-number']);
+          bloodgroup.add(docs.documents[i].data['bloodGroup']);
+          number.add(docs.documents[i].data['phone']);
+          // gender.add(docs.documents[i].data['gender']);
+          // address.add(docs.documents[i].data['address']);
+
         }
       }
     });

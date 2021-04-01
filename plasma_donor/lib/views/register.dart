@@ -24,10 +24,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String _address;
   String _name;
   
-  String _userSelected = '';
+  String _userSelected = 'Donor';
   
   List<String> _userType = ['Donor', 'Patient', 'Other']; 
-  String _genderSelected = '';
+  String _genderSelected = 'Female';
   List _gender = ["Male", "Female", "Others"];
 
   bool _availabilityCategorySelected = false;

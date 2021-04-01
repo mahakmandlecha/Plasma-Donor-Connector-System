@@ -11,7 +11,7 @@ import 'package:plasma_donor/helper/constants.dart';
 import 'package:plasma_donor/services/auth.dart';
 import 'package:plasma_donor/utils/customWaveIndicator.dart';
 import 'package:plasma_donor/views/campaigns.dart';
-import 'package:plasma_donor/views/donors.dart';
+import 'package:plasma_donor/views/patients.dart';
 import 'package:plasma_donor/views/homepagefornews.dart';
 import 'package:plasma_donor/views/login_screen.dart';
 
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text("Blood Donors"),
+              title: Text("Patients"),
               leading: Icon(
                 FontAwesomeIcons.handshake,
                 color: Colors.amberAccent[700],
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text("Blood Requests"),
+              title: Text("Request Plasma"),
               leading: Icon(
                 FontAwesomeIcons.burn,
                 color: Colors.amberAccent[700],

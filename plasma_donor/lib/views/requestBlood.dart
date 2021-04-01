@@ -16,11 +16,14 @@ class RequestBlood extends StatefulWidget {
 class _RequestBloodState extends State<RequestBlood> {
   final formkey = new GlobalKey<FormState>();
   List<String> _bloodGroup = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
-  String _selected = '';
+  List<String> _gender = ['Male','Female','Other'];
+  String _selectedGender = '';
+  String _selectedBloodGroup = '';
   String _qty;
   String _phone;
   String _address;
-  bool _categorySelected = false;
+  String _name;
+  
   DateTime selectedDate = DateTime.now();
   var formattedDate;
   int flag = 0;
@@ -167,8 +170,9 @@ class _RequestBloodState extends State<RequestBlood> {
                               }).toList(),
                               onChanged: (newValue) {
                                 setState(() {
-                                  _selected = newValue;
-                                  this._categorySelected = true;
+                                  _selectedBloodGroup = newValue;
+                                  
+
                                 });
                               },
                             ),
@@ -177,7 +181,7 @@ class _RequestBloodState extends State<RequestBlood> {
                             height: 10.0,
                           ),
                           Text(
-                            _selected,
+                            _selectedBloodGroup,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20.0,
@@ -185,6 +189,62 @@ class _RequestBloodState extends State<RequestBlood> {
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(top: 20.0),
+                            child: DropdownButton(
+                              hint: Text(
+                                'Choose Gender',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              iconSize: 40.0,
+                              items: _gender.map((val) {
+                                return new DropdownMenuItem<String>(
+                                  value: val,
+                                  child: new Text(val),
+                                );
+                              }).toList(),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _selectedGender = newValue;
+                                  
+                                });
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            _selectedGender,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Colors.amberAccent[700]
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText: 'Name',
+                          icon: Icon(
+                            FontAwesomeIcons.user,
+                            color: Colors.amberAccent[700],
+                          ),
+                        ),
+                        validator: (value) =>
+                            value.isEmpty ? "Name field can't be empty" : null,
+                        onSaved: (value) => _name = value,
                       ),
                     ),
                     Padding(
@@ -214,6 +274,45 @@ class _RequestBloodState extends State<RequestBlood> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
+                    
+Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText: 'Address',
+                          icon: Icon(
+                            FontAwesomeIcons.mobile,
+                          color: Colors.amberAccent[700]
+                          ),
+                        ),
+                        validator: (value) => value.isEmpty
+                            ? "Address field can't be empty"
+                            : null,
+                        onSaved: (value) => _phone = value,
+                        maxLength: 250,
+                        keyboardType: TextInputType.streetAddress,
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText: 'Phone Number',
+                          icon: Icon(
+                            FontAwesomeIcons.mobile,
+                          color: Colors.amberAccent[700]
+                          ),
+                        ),
+                        validator: (value) => value.isEmpty
+                            ? "Phone Number field can't be empty"
+                            : null,
+                        onSaved: (value) => _phone = value,
+                        maxLength: 10,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -233,24 +332,6 @@ class _RequestBloodState extends State<RequestBlood> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: 'Phone Number',
-                          icon: Icon(
-                            FontAwesomeIcons.mobile,
-                          color: Colors.amberAccent[700]
-                          ),
-                        ),
-                        validator: (value) => value.isEmpty
-                            ? "Phone Number field can't be empty"
-                            : null,
-                        onSaved: (value) => _phone = value,
-                        maxLength: 10,
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
                     SizedBox(
                       height: 30.0,
                     ),
@@ -260,7 +341,9 @@ class _RequestBloodState extends State<RequestBlood> {
                         formkey.currentState.save();
                         final Map<String, dynamic> BloodRequestDetails = {
                           'uid': currentUser.uid,
-                          'bloodGroup': _selected,
+                          'name' : _name,
+                          'bloodGroup': _selectedBloodGroup,
+                          'gender': _selectedGender,
                           'quantity': _qty,
                           'dueDate': formattedDate,
                           'phone': _phone,
