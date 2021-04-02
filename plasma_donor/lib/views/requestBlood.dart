@@ -1,10 +1,12 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:plasma_donor/views/homepage.dart';
-//
+import 'package:uuid/uuid.dart';
 
 class RequestBlood extends StatefulWidget {
   double _lat, _lng;
@@ -25,6 +27,11 @@ class _RequestBloodState extends State<RequestBlood> {
   String _name;
   String _age;
 
+  var _controller = TextEditingController();
+  var uuid = new Uuid();
+  String _sessionToken;
+  List<dynamic> _placeList = [];
+
   DateTime selectedDate = DateTime.now();
   var formattedDate;
   int flag = 0;
@@ -35,6 +42,45 @@ class _RequestBloodState extends State<RequestBlood> {
     super.initState();
     _loadCurrentUser();
     getAddress();
+
+    _controller.addListener(() {
+      _onChanged();
+    });
+  }
+
+  void _onChanged() {
+    if (_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getLocationResults(_controller.text);
+  }
+
+  void getLocationResults(String input) async {
+    String kPLACES_API_KEY = "AIzaSyDe0K76pQsO3UqcfXFqVRzUcfqYS6KqLoI";
+    String type = '';
+    String baseURL =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+    // String request = baseURL +
+    //     "?input=" +
+    //     input +
+    //     "&key=" +
+    //     kPLACES_API_KEY +
+    //     "&sessiontoken=" +
+    //     _sessionToken;
+    String request =
+        '$baseURL?input=$input&key=$kPLACES_API_KEY&sessiontoken=$_sessionToken';
+    var response = await http.get(request);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        _placeList = json.decode(response.body)['predictions'];
+      });
+    } else {
+      throw Exception('Failed to load predictions');
+    }
+    print(_placeList);
   }
 
   bool isLoggedIn() {
@@ -112,11 +158,17 @@ class _RequestBloodState extends State<RequestBlood> {
   void getAddress() async {
     placemark =
         await Geolocator().placemarkFromCoordinates(widget._lat, widget._lng);
-    _address = placemark[0].name.toString() +
-        "," +
-        placemark[0].locality.toString() +
-        "," +
-        placemark[0].postalCode.toString();
+    // print("1"+placemark[0].name);
+    // print("3"+placemark[0].postalCode);
+    // print("4"+placemark[0].administrativeArea);
+    // print("6"+placemark[0].subLocality);
+    _address = placemark[0].subLocality +
+        ", " +
+        placemark[0].name.toString() +
+        ", " +
+        placemark[0].postalCode.toString() +
+        ", " +
+        placemark[0].administrativeArea;
   }
 
   @override
@@ -124,7 +176,6 @@ class _RequestBloodState extends State<RequestBlood> {
     return Scaffold(
       backgroundColor: Color.fromARGB(1000, 221, 46, 68),
       appBar: AppBar(
-        
         elevation: 0.0,
         centerTitle: true,
         backgroundColor: Colors.amberAccent[700],
@@ -280,21 +331,46 @@ class _RequestBloodState extends State<RequestBlood> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: 'Address',
-                          icon: Icon(FontAwesomeIcons.addressBook,
-                              color: Colors.amberAccent[700]),
-                        ),
-                        validator: (value) => value.isEmpty
-                            ? "Address field can't be empty"
-                            : null,
-                        onSaved: (value) => _phone = value,
-                        keyboardType: TextInputType.streetAddress,
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(18.0),
+                    //   child: TextFormField(
+                    //     // controller: _controller,
+                    //     // autocorrect: false,
+                    //     // decoration: InputDecoration(
+                    //     //   hintText: "Seek your location here",
+                    //     //   focusColor: Colors.white,
+                    //     //   floatingLabelBehavior: FloatingLabelBehavior.never,
+                    //     //   prefixIcon: Icon(Icons.map),
+                    //     //   suffixIcon: IconButton(
+                    //     //     icon: Icon(Icons.cancel),
+                    //     //   ),
+                    //     // ),
+
+                    //     decoration: InputDecoration(
+                    //       hintText: 'Address',
+                    //       icon: Icon(FontAwesomeIcons.addressBook,
+                    //           color: Colors.amberAccent[700]),
+                    //     ),
+                    //     validator: (value) => value.isEmpty
+                    //         ? "Address field can't be empty"
+                    //         : null,
+                    //     onSaved: (value) => _address = value,
+                    //     keyboardType: TextInputType.streetAddress,
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: ListView.builder(
+                    //     physics: NeverScrollableScrollPhysics(),
+                    //     shrinkWrap: true,
+                    //     itemCount: _placeList.length,
+                    //     itemBuilder: (context, index) {
+                    //       return ListTile(
+                    //         title: Text(_placeList[index]["description"]),
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: TextFormField(

@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plasma_donor/helper/constants.dart';
 import 'package:plasma_donor/services/auth.dart';
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   Completer<GoogleMapController> _controller = Completer();
   String _name, _bloodgrp, _email, _userSelected;
   Widget _child;
+  Position position;
   AuthService authService = new AuthService();
   signOut() async {
     authService.signOut();
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _child = WaveIndicator();
-
+    getCurrentLocation();
     _fetchUserInfo();
     super.initState();
   }
@@ -94,6 +96,19 @@ class _HomePageState extends State<HomePage> {
       _userSelected = _userInfo['user-type'];
       _child = _myWidget();
     });
+  }
+
+  void getCurrentLocation() async {
+    Position res = await Geolocator().getCurrentPosition();
+    print(Position);
+    setState(() {
+      position = res;
+      // _child = mapWidget();
+    });
+
+    print(position.latitude);
+    print(position.longitude);
+
   }
 
   // Future<void> _loadCurrentUser() async {
@@ -187,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RequestBlood(22.7196, 75.8577)));
+                        builder: (context) => RequestBlood(position.latitude,position.longitude)));
               },
             ),
             ListTile(

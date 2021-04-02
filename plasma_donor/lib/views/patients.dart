@@ -98,7 +98,7 @@ class _DonorsPageState extends State<DonorsPage> {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  height: 80.0,
+                  height: 100.0,
                   child: Card(
                     elevation: 5.0,
                     child: ListTile(
