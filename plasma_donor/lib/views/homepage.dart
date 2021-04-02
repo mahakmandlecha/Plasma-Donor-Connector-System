@@ -41,6 +41,8 @@ class _HomePageState extends State<HomePage> {
   var lat = [];
   var long = [];
   var city = [];
+  var name = [];
+  var phone = [];
 
   Set<Marker> mark =  Set();
 
@@ -71,6 +73,8 @@ class _HomePageState extends State<HomePage> {
           lat.add(docs.documents[i].data['location'].latitude);
           long.add(docs.documents[i].data['location'].longitude);
           city.add(docs.documents[i].data['address']);
+          name.add(docs.documents[i].data['name']);
+          phone.add(docs.documents[i].data['phone']);
         }
       }
     });
@@ -492,28 +496,21 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://images.unsplash.com/photo-1504940892017-d23b9053d5d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                  22.7196,
-                  75.8577,
-                  "Mradul Rathore"),
+                  
+                  lat[0],
+                  long[0],
+                  name[0],
+                  phone[0]),
             ),
             SizedBox(width: 10.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _boxes(
-                  "https://lh5.googleusercontent.com/p/AF1QipMKRN-1zTYMUVPrH-CcKzfTo6Nai7wdL7D8PMkt=w340-h160-k-no",
-                  23.2599,
-                  77.4126,
-                  "Ritik Jain"),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  "https://images.unsplash.com/photo-1504940892017-d23b9053d5d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-                  23.1765,
-                  75.7885,
-                  "Mahak Mandlecha"),
+                  
+                  lat[1],
+                  long[1],
+                  name[1],
+                  phone[1]),
             ),
           ],
         ),
@@ -521,7 +518,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _boxes(String _image, double lat, double long, String restaurantName) {
+  Widget _boxes(double lat, double long, String restaurantName, String ph) {
     return GestureDetector(
       onTap: () {
         _gotoLocation(lat, long);
@@ -537,20 +534,9 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    width: 180,
-                    height: 200,
-                    child: ClipRRect(
-                      borderRadius: new BorderRadius.circular(24.0),
-                      child: Image(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(_image),
-                      ),
-                    ),
-                  ),
-                  Container(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: myDetailsContainer1(restaurantName),
+                      child: myDetailsContainer1(restaurantName,ph),
                     ),
                   ),
                 ],
@@ -560,19 +546,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _makingPhoneCall() async {
-    const url = 'tel:9876543210';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  void _sendSMS(num) async {
+    String message = "Hello! I'm willing to donate plasma. You can contact me on the same number.";
 
-  void _sendSMS() async {
-    String message = "This is a test message!";
-    List<String> recipents = ["1234567890", "5556787676"];
-
+    List<String> recipents = [num];
     String _result = await sendSMS(message: message, recipients: recipents)
         .catchError((onError) {
       print(onError);
@@ -580,7 +557,16 @@ class _HomePageState extends State<HomePage> {
     print(_result);
   }
 
-  Widget myDetailsContainer1(String restaurantName) {
+  _makingPhoneCall(num) async {
+    var url = "tel:" + num;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Widget myDetailsContainer1(String restaurantName, String ph) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -591,7 +577,7 @@ class _HomePageState extends State<HomePage> {
             restaurantName,
             style: TextStyle(
                 color: Colors.amberAccent[700],
-                fontSize: 24.0,
+                fontSize: 15.0,
                 fontWeight: FontWeight.bold),
           )),
         ),
@@ -602,64 +588,41 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                _makingPhoneCall();
+                _makingPhoneCall(ph);
               },
               child: Container(
                 child: Icon(
                   FontAwesomeIcons.phone,
                   color: Colors.amber,
-                  size: 40.0,
+                  size: 20.0,
                 ),
               ),
             ),
+            SizedBox(width: 30.0),
             GestureDetector(
               onTap: () {
-                _makingPhoneCall();
-              },
-              child: Container(
-                child: Icon(
-                  FontAwesomeIcons.phone,
-                  color: Colors.white,
-                  size: 40.0,
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                _makingPhoneCall();
-              },
-              child: Container(
-                child: Icon(
-                  FontAwesomeIcons.phone,
-                  color: Colors.white,
-                  size: 40.0,
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                _sendSMS();
+                _sendSMS(ph);
               },
               child: Container(
                 child: Icon(
                   FontAwesomeIcons.facebookMessenger,
                   color: Colors.amber,
-                  size: 40.0,
+                  size: 20.0,
                 ),
               ),
             ),
           ],
         )),
-        SizedBox(height: 5.0),
-        SizedBox(height: 5.0),
-        Container(
-            child: Text(
-          "XYZ colony      \u00B7      2 hours",
-          style: TextStyle(
-              color: Colors.black54,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        )),
+        // SizedBox(height: 5.0),
+        // SizedBox(height: 5.0),
+        // Container(
+        //     child: Text(
+        //   "XYZ colony      \u00B7      2 hours",
+        //   style: TextStyle(
+        //       color: Colors.black54,
+        //       fontSize: 18.0,
+        //       fontWeight: FontWeight.bold),
+        // )),
       ],
     );
   }
@@ -725,55 +688,55 @@ class _HomePageState extends State<HomePage> {
 
 }
 
-Marker IndoreMarker = Marker(
-  markerId: MarkerId('Indore'), //gramercy
-  position: LatLng(22.7196, 75.8577),
-  infoWindow: InfoWindow(title: 'Indore'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
+// Marker IndoreMarker = Marker(
+//   markerId: MarkerId('Indore'), //gramercy
+//   position: LatLng(22.7196, 75.8577),
+//   infoWindow: InfoWindow(title: 'Indore'),
+//   icon: BitmapDescriptor.defaultMarkerWithHue(
+//     BitmapDescriptor.hueViolet,
+//   ),
+// );
 
-Marker BhopalMarker = Marker(
-  markerId: MarkerId('Bhopal'),
-  position: LatLng(23.2599, 77.4126),
-  infoWindow: InfoWindow(title: 'Bhopal'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
-Marker UjjainMarker = Marker(
-  markerId: MarkerId('Ujjain'),
-  position: LatLng(23.1765, 75.7885),
-  infoWindow: InfoWindow(title: 'Ujjain'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
+// Marker BhopalMarker = Marker(
+//   markerId: MarkerId('Bhopal'),
+//   position: LatLng(23.2599, 77.4126),
+//   infoWindow: InfoWindow(title: 'Bhopal'),
+//   icon: BitmapDescriptor.defaultMarkerWithHue(
+//     BitmapDescriptor.hueViolet,
+//   ),
+// );
+// Marker UjjainMarker = Marker(
+//   markerId: MarkerId('Ujjain'),
+//   position: LatLng(23.1765, 75.7885),
+//   infoWindow: InfoWindow(title: 'Ujjain'),
+//   icon: BitmapDescriptor.defaultMarkerWithHue(
+//     BitmapDescriptor.hueViolet,
+//   ),
+// );
 
-//New York Marker
+// //New York Marker
 
-Marker DewasMarker = Marker(
-  markerId: MarkerId('Dewas'),
-  position: LatLng(22.9676, 76.0534),
-  infoWindow: InfoWindow(title: 'Dewas'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
-Marker DasaiMarker = Marker(
-  markerId: MarkerId('Dasai'),
-  position: LatLng(22.7199, 75.1319),
-  infoWindow: InfoWindow(title: 'Dasai'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
-Marker SagarMarker = Marker(
-  markerId: MarkerId('Sagar'),
-  position: LatLng(23.8388, 78.7378),
-  infoWindow: InfoWindow(title: 'Sagar'),
-  icon: BitmapDescriptor.defaultMarkerWithHue(
-    BitmapDescriptor.hueViolet,
-  ),
-);
+// Marker DewasMarker = Marker(
+//   markerId: MarkerId('Dewas'),
+//   position: LatLng(22.9676, 76.0534),
+//   infoWindow: InfoWindow(title: 'Dewas'),
+//   icon: BitmapDescriptor.defaultMarkerWithHue(
+//     BitmapDescriptor.hueViolet,
+//   ),
+// );
+// Marker DasaiMarker = Marker(
+//   markerId: MarkerId('Dasai'),
+//   position: LatLng(22.7199, 75.1319),
+//   infoWindow: InfoWindow(title: 'Dasai'),
+//   icon: BitmapDescriptor.defaultMarkerWithHue(
+//     BitmapDescriptor.hueViolet,
+//   ),
+// );
+// Marker SagarMarker = Marker(
+//   markerId: MarkerId('Sagar'),
+//   position: LatLng(23.8388, 78.7378),
+//   infoWindow: InfoWindow(title: 'Sagar'),
+//   icon: BitmapDescriptor.defaultMarkerWithHue(
+//     BitmapDescriptor.hueViolet,
+//   ),
+// );

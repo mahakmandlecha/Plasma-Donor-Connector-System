@@ -13,7 +13,7 @@ Widget MyAppBar(){
         ),
         Text(
           "News",
-          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600),
+          style: TextStyle(color: Colors.amberAccent[700], fontWeight: FontWeight.w600),
         )
       ],
     ),

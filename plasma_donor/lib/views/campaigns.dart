@@ -10,6 +10,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:plasma_donor/utils/customDialogs.dart';
 import 'package:plasma_donor/utils/customWaveIndicator.dart';
+import 'package:plasma_donor/views/campaignList.dart';
 
 class CampaignsPage extends StatefulWidget {
   @override
@@ -51,22 +52,36 @@ class _CampaignsPageState extends State<CampaignsPage> {
   }
 
   Widget myWidget() {
+    // return Container(
+    //     decoration: BoxDecoration(
+    //         gradient: LinearGradient(colors: [
+    //       Colors.yellow[100],
+    //       Colors.blue[50],
+    //     ])),
+    //     child:
+        
+    //      Padding(
+    //         padding: EdgeInsets.all(16.0),
+    //         child: ListView.builder(
+    //             itemCount: organizationNames.length,
+    //             itemBuilder: (BuildContext context, int index) {
+    //               return ListTile(
+    //                 title: Text(organizationNames[index]),
+    //                 subtitle: Text(desc[index]),
+    //               );
+    //             })));
     return Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Colors.yellow[100],
-          Colors.blue[50],
-        ])),
-        child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: ListView.builder(
-                itemCount: organizationNames.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(organizationNames[index]),
-                    subtitle: Text(desc[index]),
-                  );
-                })));
+      color: Colors.white,
+      child: new Column(
+        
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          // Expanded(flex: 1, child: new InstaStories()),
+          Flexible(child: CampaignList())
+        ],
+      ),
+    );
+
   }
 
   bool isLoggedIn() {
@@ -118,7 +133,7 @@ class _CampaignsPageState extends State<CampaignsPage> {
                 },
                 child: Icon(
                   Icons.arrow_forward,
-                  color: Color.fromARGB(1000, 221, 46, 68),
+                  color: Colors.amberAccent[700],
                 ),
               ),
             ],
@@ -208,10 +223,10 @@ class _CampaignsPageState extends State<CampaignsPage> {
                             padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
                               decoration: InputDecoration(
-                                hintText: 'Organisation name',
+                                hintText: 'Title',
                                 icon: Icon(
                                   FontAwesomeIcons.user,
-                                  color: Color.fromARGB(1000, 221, 46, 68),
+                                 color: Colors.amberAccent[700],
                                 ),
                               ),
                               validator: (value) => value.isEmpty
@@ -225,10 +240,10 @@ class _CampaignsPageState extends State<CampaignsPage> {
                             padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
                               decoration: InputDecoration(
-                                hintText: 'Wite something here',
+                                hintText: 'Write something here',
                                 icon: Icon(
                                   FontAwesomeIcons.pen,
-                                  color: Color.fromARGB(1000, 221, 46, 68),
+                                  color: Colors.amberAccent[700],
                                 ),
                               ),
                               validator: (value) => value.isEmpty
@@ -236,7 +251,7 @@ class _CampaignsPageState extends State<CampaignsPage> {
                                   : null,
                               onSaved: (value) => _text = value,
                               keyboardType: TextInputType.multiline,
-                              maxLength: 120,
+                              maxLength: 300,
                             ),
                           ),
                           Row(
@@ -267,7 +282,7 @@ class _CampaignsPageState extends State<CampaignsPage> {
                   ),
                   actions: <Widget>[
                     RaisedButton(
-                      color: Color.fromARGB(1000, 221, 46, 68),
+                      color: Colors.amberAccent[700],
                       onPressed: () async {
                         if (!formkey.currentState.validate()) return;
                         formkey.currentState.save();
