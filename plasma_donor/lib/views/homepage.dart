@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plasma_donor/helper/constants.dart';
 import 'package:plasma_donor/services/auth.dart';
+import 'package:plasma_donor/utils/customDialogs.dart';
 import 'package:plasma_donor/utils/customWaveIndicator.dart';
 import 'package:plasma_donor/views/campaigns.dart';
 import 'package:plasma_donor/views/patients.dart';
@@ -33,7 +35,15 @@ class _HomePageState extends State<HomePage> {
   String _name, _bloodgrp, _email, _userSelected;
   Widget _child;
   Position position;
+
   AuthService authService = new AuthService();
+
+  var lat = [];
+  var long = [];
+  var city = [];
+
+  Set<Marker> mark =  Set();
+
   signOut() async {
     authService.signOut();
     Constants.saveUserLoggedInSharedPreference(false);
@@ -43,10 +53,30 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
     _child = WaveIndicator();
     getCurrentLocation();
     _fetchUserInfo();
-    super.initState();
+    _fetchAllOtherUser();
+    
+  }
+
+  void _fetchAllOtherUser() async {
+    await Firestore.instance
+        .collection('Blood Request Details')
+        .getDocuments()
+        .then((docs) {
+      if (docs.documents.isNotEmpty) {
+        for (int i = 0; i < docs.documents.length; ++i) {
+          lat.add(docs.documents[i].data['location'].latitude);
+          long.add(docs.documents[i].data['location'].longitude);
+          city.add(docs.documents[i].data['address']);
+        }
+      }
+    });
+    print(lat);
+    print(long);
+    print(city);
   }
 
   Future<Null> _fetchRequests() async {
@@ -77,6 +107,135 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<Null> _fetchrequestName(requestId) async {
+    Map<String, dynamic> _userInfo;
+    DocumentSnapshot _snapshot = await Firestore.instance
+        .collection("User Details")
+        .document(requestId)
+        .get();
+
+    _userInfo = _snapshot.data;
+
+    this.setState(() {
+      _name = _userInfo['name'];
+    });
+  }
+
+  void initMarker(request, requestId) {
+    var markerIdVal = requestId;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    // creating a new MARKER
+    final Marker marker = Marker(
+        markerId: markerId,
+        position:
+            LatLng(request['location'].latitude, request['location'].longitude),
+        onTap: () async {
+          //   CustomDialogs.progressDialog(context: context, message: 'Fetching');
+          //   await _fetchrequestName(requestId);
+          //   Navigator.pop(context);
+          //   return showModalBottomSheet(
+          //       backgroundColor: Colors.transparent,
+          //       context: context,
+          //       builder: (BuildContext context) {
+          //         return Container(
+          //           margin: const EdgeInsets.all(8.0),
+          //           height: 180.0,
+          //           decoration: BoxDecoration(
+          //             color: Colors.white,
+          //             borderRadius: BorderRadius.all(Radius.circular(15)),
+          //           ),
+          //           child: Column(
+          //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //             children: <Widget>[
+          //               Row(
+          //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //                 children: <Widget>[
+          //                   Padding(
+          //                     padding: const EdgeInsets.all(8.0),
+          //                     child: CircleAvatar(
+          //                       child: Text(
+          //                         request['bloodGroup'],
+          //                         style: TextStyle(
+          //                           fontSize: 30.0,
+          //                           color: Colors.white,
+          //                         ),
+          //                       ),
+          //                       radius: 30.0,
+          //                       backgroundColor:
+          //                           Color.fromARGB(1000, 221, 46, 68),
+          //                     ),
+          //                   ),
+          //                   Column(
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     children: <Widget>[
+          //                       Text(
+          //                         _name,
+          //                         style: TextStyle(
+          //                             fontSize: 18.0, color: Colors.black87),
+          //                       ),
+          //                       Text(
+          //                         "Quantity: " + request['quantity'] + " L",
+          //                         style: TextStyle(
+          //                             fontSize: 14.0, color: Colors.black87),
+          //                       ),
+          //                       Text(
+          //                         "Due Date: " + request['dueDate'],
+          //                         style: TextStyle(
+          //                             fontSize: 14.0, color: Colors.red),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 ],
+          //               ),
+          //               Padding(
+          //                 padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+          //                 child: Text(
+          //                   request['address'],
+          //                 ),
+          //               ),
+          //               Row(
+          //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //                 children: <Widget>[
+          //                   RaisedButton(
+          //                     onPressed: () {
+          //                       UrlLauncher.launch("tel:${request['phone']}");
+          //                     },
+          //                     textColor: Colors.white,
+          //                     padding: EdgeInsets.only(left: 5.0, right: 5.0),
+          //                     color: Color.fromARGB(1000, 221, 46, 68),
+          //                     child: Icon(Icons.phone),
+          //                     shape: new RoundedRectangleBorder(
+          //                         borderRadius: new BorderRadius.circular(30.0)),
+          //                   ),
+          //                   RaisedButton(
+          //                     onPressed: () {
+          //                       String message =
+          //                           "Hello $_name, I am a potential blood donor willing to help you. Reply back if you still need blood.";
+          //                       UrlLauncher.launch(
+          //                           "sms:${request['phone']}?body=$message");
+          //                     },
+          //                     textColor: Colors.white,
+          //                     padding: EdgeInsets.only(left: 5.0, right: 5.0),
+          //                     color: Color.fromARGB(1000, 221, 46, 68),
+          //                     child: Icon(Icons.message),
+          //                     shape: new RoundedRectangleBorder(
+          //                         borderRadius: new BorderRadius.circular(30.0)),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ],
+          //           ),
+          //         );
+          //       });
+          //
+        });
+    setState(() {
+      // adding a new marker to map
+      // markers[markerId] = marker;
+      print(markerId);
+    });
+  }
+
   Future<Null> _fetchUserInfo() async {
     Map<String, dynamic> _userInfo;
     FirebaseUser _currentUser = await FirebaseAuth.instance.currentUser();
@@ -100,7 +259,8 @@ class _HomePageState extends State<HomePage> {
 
   void getCurrentLocation() async {
     Position res = await Geolocator().getCurrentPosition();
-    print(Position);
+    print("Position:");
+    print(res);
     setState(() {
       position = res;
       // _child = mapWidget();
@@ -108,7 +268,6 @@ class _HomePageState extends State<HomePage> {
 
     print(position.latitude);
     print(position.longitude);
-
   }
 
   // Future<void> _loadCurrentUser() async {
@@ -202,7 +361,8 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RequestBlood(position.latitude,position.longitude)));
+                        builder: (context) => RequestBlood(
+                            position.latitude, position.longitude)));
               },
             ),
             ListTile(
@@ -505,24 +665,28 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildGoogleMap(BuildContext context) {
+    _buildMarker();
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: GoogleMap(
+        myLocationButtonEnabled: true,
         mapType: MapType.normal,
         initialCameraPosition:
             CameraPosition(target: LatLng(22.7196, 75.8577), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
+          
           _controller.complete(controller);
         },
-        markers: {
-          DewasMarker,
-          SagarMarker,
-          DasaiMarker,
-          IndoreMarker,
-          BhopalMarker,
-          UjjainMarker
-        },
+        markers: mark,
+          
+        
+        // DewasMarker,
+        // SagarMarker,
+        // DasaiMarker,
+        // IndoreMarker,
+        // BhopalMarker,
+        // UjjainMarker
       ),
     );
   }
@@ -536,6 +700,29 @@ class _HomePageState extends State<HomePage> {
       bearing: 45.0,
     )));
   }
+
+  _buildMarker() {
+    for (int i = 0; i < lat.length; ++i) {
+      // initMarker(docs.documents[i].data, docs.documents[i].documentID);
+      Marker tmp = Marker(
+        markerId: MarkerId("$i"),
+        position: LatLng(lat[i], long[i]),
+        infoWindow: InfoWindow(title: city[i]),
+        icon: BitmapDescriptor.defaultMarkerWithHue(
+          BitmapDescriptor.hueViolet,
+        ),
+      );
+      print("Marker value");
+      print(tmp);
+      mark.add(tmp);
+      
+    }
+    print("outside Marker value");
+  }
+
+
+
+
 }
 
 Marker IndoreMarker = Marker(
