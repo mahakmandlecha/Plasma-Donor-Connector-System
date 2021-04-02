@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:plasma_donor/views/homepage.dart';
 import 'package:provider/provider.dart';
@@ -41,9 +42,14 @@ class _LoginScreenState extends State<LoginScreen> {
     _formKey.currentState.save();
 
     try {
-      await Provider.of<Authentication>(context, listen: false)
-          .logIn(_authData['email'], _authData['password']);
-      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+      // await Provider.of<Authentication>(context, listen: false)
+      //     .logIn(_authData['email'], _authData['password']);
+      
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: _authData['email'], password: _authData['password']);
+
+      Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) =>HomePage()));
+      // Navigator.of(context).pushReplacementNamed(HomePage.routeName);
     } catch (error) {
       var errorMessage = 'Authentication Failed. Please try again later.';
       _showErrorDialog(errorMessage);

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plasma_donor/helper/constants.dart';
@@ -16,7 +17,6 @@ import 'package:plasma_donor/views/homepagefornews.dart';
 import 'package:plasma_donor/views/login_screen.dart';
 
 import 'package:plasma_donor/views/requestBlood.dart';
-
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,15 +39,52 @@ class _HomePageState extends State<HomePage> {
         context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
+  @override
+  void initState() {
+    _child = WaveIndicator();
+
+    _fetchUserInfo();
+    super.initState();
+  }
+
+  Future<Null> _fetchRequests() async {
+    Map<String, dynamic> _userInfo;
+
+    DocumentSnapshot _snapshot = await Firestore.instance
+        .collection("Blood Request Details")
+        .document(currentUser.uid)
+        .get();
+
+    var requestDetails = _snapshot.data;
+
+    print(requestDetails);
+
+    if (requestDetails != null) {
+      await Firestore.instance
+          .collection("Blood Request Details")
+          .document(currentUser.uid)
+          .delete();
+    } else {
+      Navigator.pop(context);
+      Fluttertoast.showToast(
+          msg: "No active plasma request exists.",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
   Future<Null> _fetchUserInfo() async {
     Map<String, dynamic> _userInfo;
     FirebaseUser _currentUser = await FirebaseAuth.instance.currentUser();
-
+    this.currentUser = _currentUser;
     DocumentSnapshot _snapshot = await Firestore.instance
         .collection("User Details")
         .document(_currentUser.uid)
+        // .document(this.currentUser.uid)
         .get();
-
+    print("inside fetchUserInfo" + _currentUser.uid);
     _userInfo = _snapshot.data;
 
     this.setState(() {
@@ -59,22 +96,15 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _loadCurrentUser() async {
-    await FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-      setState(() {
-        // call setState to rebuild the view
-        this.currentUser = user;
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    _child = WaveIndicator();
-    _loadCurrentUser();
-    _fetchUserInfo();
-    super.initState();
-  }
+  // Future<void> _loadCurrentUser() async {
+  //   await FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+  //     setState(() {
+  //       // call setState to rebuild the view
+  //       print("inside loadCurrentUser"+user.uid);
+  //       this.currentUser = user;
+  //     });
+  //   });
+  // }
 
   double zoomVal = 5.0;
   @override
@@ -113,7 +143,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               accountEmail: Text(currentUser == null ? "" : _email),
-              
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Text(
@@ -158,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => RequestBlood(22.7196,75.8577)));
+                        builder: (context) => RequestBlood(22.7196, 75.8577)));
               },
             ),
             ListTile(
@@ -181,6 +210,37 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => HomePageForNews()));
+              },
+            ),
+            ListTile(
+              title: Text("Withdraw Request"),
+              leading: Icon(
+                FontAwesomeIcons.trash,
+                color: Colors.amberAccent[700],
+              ),
+              onTap: () {
+                // withdrawRequest(context);
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Do you want to withdraw request?'),
+                        actions: <Widget>[
+                          FlatButton(
+                              child: Text('Yes'),
+                              onPressed: () async {
+                                await _fetchRequests();
+                                Navigator.pop(context);
+                              }),
+                          FlatButton(
+                              child: Text('No'),
+                              onPressed: () async {
+                                Navigator.pop(context);
+                              })
+                        ],
+                      );
+                    });
               },
             ),
             ListTile(

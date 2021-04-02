@@ -4,7 +4,6 @@ import 'package:plasma_donor/utils/round_button.dart';
 import 'package:plasma_donor/views/login_screen.dart';
 import 'package:plasma_donor/views/register.dart';
 
-
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
 
@@ -72,14 +71,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               title: 'Log In',
               colour: Colors.amberAccent[700],
               onPressed: () {
-                Navigator.of(context).pushNamed(LoginScreen.routeName);
+                // Navigator.of(context).pushNamed(LoginScreen.routeName);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
               },
             ),
             RoundedButton(
               title: 'Register',
               colour: Colors.amberAccent[700],
               onPressed: () {
-                Navigator.of(context).pushNamed(RegisterPage.routeName);
+                // Navigator.of(context).pushNamed(RegisterPage.routeName);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => RegisterPage()));
               },
             ),
           ],

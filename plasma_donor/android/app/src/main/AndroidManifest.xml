@@ -11,6 +11,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="plasma_donor"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
@@ -48,5 +49,7 @@
             android:value="2" />
             <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyDe0K76pQsO3UqcfXFqVRzUcfqYS6KqLoI"/>
+
+
     </application>
 </manifest>

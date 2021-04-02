@@ -9,9 +9,9 @@ import 'package:plasma_donor/utils/customDialogs.dart';
 import 'package:plasma_donor/views/homepage.dart';
 
 class RegisterPage extends StatefulWidget {
-  final FirebaseAuth appAuth;
+  // final FirebaseAuth appAuth;
   static const routeName = '/register';
-  RegisterPage(this.appAuth);
+  // RegisterPage(this.appAuth);
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -76,12 +76,13 @@ class _RegisterPageState extends State<RegisterPage> {
       try {
         CustomDialogs.progressDialog(
             context: context, message: 'Registration under process');
-        FirebaseUser user = (await widget.appAuth
+        FirebaseUser user = (await FirebaseAuth.instance
                 .createUserWithEmailAndPassword(
                     email: _email, password: _password))
             .user;
 
-        Navigator.pop(context);
+        // Navigator.pop(context);
+        
         print('Registered User: ${user.uid}');
         final Map<String, dynamic> UserDetails = {
           'uid': user.uid,

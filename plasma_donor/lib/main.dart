@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final FirebaseAuth appAuth = FirebaseAuth.instance;
+  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -37,7 +37,6 @@ class _MyAppState extends State<MyApp> {
           home: Home(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
-            RegisterPage.routeName: (ctx) => RegisterPage(this.appAuth),
             HomePage.routeName: (ctx) => HomePage(),
             Home.routeName: (ctx) => Home(),
           },
