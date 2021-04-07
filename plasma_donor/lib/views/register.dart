@@ -6,7 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //
 
 import 'package:plasma_donor/utils/customDialogs.dart';
+import 'package:plasma_donor/views/healthAssessmnet.dart';
 import 'package:plasma_donor/views/homepage.dart';
+import 'package:plasma_donor/views/onboarding_screen.dart';
 
 class RegisterPage extends StatefulWidget {
   // final FirebaseAuth appAuth;

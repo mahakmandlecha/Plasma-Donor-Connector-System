@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plasma_donor/views/homepage.dart';
 import 'package:provider/provider.dart';
 
@@ -62,7 +63,9 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.amberAccent[700],
-        title: Text('Login'),        
+        title: Text('Login'),  
+
+              
       ),
       body: Stack(
         children: <Widget>[

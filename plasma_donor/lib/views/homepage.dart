@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:plasma_donor/views/faq.dart';
+import 'package:plasma_donor/views/welcome_screen.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   var name = [];
   var phone = [];
 
-  Set<Marker> mark =  Set();
+  Set<Marker> mark = Set();
 
   signOut() async {
     authService.signOut();
@@ -60,7 +62,6 @@ class _HomePageState extends State<HomePage> {
     getCurrentLocation();
     _fetchUserInfo();
     _fetchAllOtherUser();
-    
   }
 
   void _fetchAllOtherUser() async {
@@ -72,6 +73,7 @@ class _HomePageState extends State<HomePage> {
         for (int i = 0; i < docs.documents.length; ++i) {
           lat.add(docs.documents[i].data['location'].latitude);
           long.add(docs.documents[i].data['location'].longitude);
+
           city.add(docs.documents[i].data['address']);
           name.add(docs.documents[i].data['name']);
           phone.add(docs.documents[i].data['phone']);
@@ -81,6 +83,44 @@ class _HomePageState extends State<HomePage> {
     print(lat);
     print(long);
     print(city);
+  }
+
+  Future<Null> _beforeRequestPlacement() async {
+    Map<String, dynamic> _userInfo;
+
+    DocumentSnapshot _snapshot = await Firestore.instance
+        .collection("Blood Request Details")
+        .document(currentUser.uid)
+        .get();
+
+    var requestDetails = _snapshot.data;
+
+    print(requestDetails);
+
+    if (requestDetails != null) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(
+                  'You already have a request. If you want to place new one, first withdraw old request.'),
+              actions: <Widget>[
+                FlatButton(
+                    child: Text('Okay'),
+                    onPressed: () async {
+                      Navigator.pop(context);
+                    }),
+              ],
+            );
+          });
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  RequestBlood(position.latitude, position.longitude)));
+    }
   }
 
   Future<Null> _fetchRequests() async {
@@ -263,7 +303,7 @@ class _HomePageState extends State<HomePage> {
 
   void getCurrentLocation() async {
     Position res = await Geolocator().getCurrentPosition();
-    print("Position:");
+    print("ssdfddsfPosition:");
     print(res);
     setState(() {
       position = res;
@@ -362,11 +402,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.amberAccent[700],
               ),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RequestBlood(
-                            position.latitude, position.longitude)));
+                _beforeRequestPlacement();
               },
             ),
             ListTile(
@@ -381,7 +417,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text("Feed"),
+              title: Text("Latest News"),
               leading: Icon(
                 FontAwesomeIcons.newspaper,
                 color: Colors.amberAccent[700],
@@ -423,6 +459,17 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              title: Text("FAQ"),
+              leading: Icon(
+                FontAwesomeIcons.question,
+                color: Colors.amberAccent[700],
+              ),
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => FAQ()));
+              },
+            ),
+            ListTile(
               title: Text("Logout"),
               leading: Icon(
                 FontAwesomeIcons.signOutAlt,
@@ -430,7 +477,7 @@ class _HomePageState extends State<HomePage> {
               ),
               onTap: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                    MaterialPageRoute(builder: (context) => WelcomeScreen()));
               },
             ),
           ],
@@ -484,38 +531,41 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildContainer() {
-    return Align(
-      alignment: Alignment.bottomLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 20.0),
-        height: 150.0,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  
-                  lat[0],
-                  long[0],
-                  name[0],
-                  phone[0]),
-            ),
-            SizedBox(width: 10.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _boxes(
-                  
-                  lat[1],
-                  long[1],
-                  name[1],
-                  phone[1]),
-            ),
-          ],
+    if (lat.length > 1) {
+      return Align(
+        alignment: Alignment.bottomLeft,
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 20.0),
+          height: 150.0,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+              SizedBox(width: 10.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _boxes(
+                    lat?.length > 0 ? lat[0] : 22.735,
+                    long?.length > 0 ? long[0] : 22.735,
+                    name?.length > 0 ? name[0] : '',
+                    phone?.length > 0 ? phone[0] : ''),
+              ),
+              SizedBox(width: 10.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: _boxes(
+                    lat?.length > 0 ? lat[1] : 22.735,
+                    long?.length > 0 ? long[1] : 22.735,
+                    name?.length > 0 ? name[1] : '',
+                    phone?.length > 0 ? phone[1] : ''),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    }
+    else {
+      return Container();
+    }
   }
 
   Widget _boxes(double lat, double long, String restaurantName, String ph) {
@@ -536,7 +586,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: myDetailsContainer1(restaurantName,ph),
+                      child: myDetailsContainer1(restaurantName, ph),
                     ),
                   ),
                 ],
@@ -547,7 +597,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _sendSMS(num) async {
-    String message = "Hello! I'm willing to donate plasma. You can contact me on the same number.";
+    String message =
+        "Hello! I'm willing to donate plasma. You can contact me on the same number.";
 
     List<String> recipents = [num];
     String _result = await sendSMS(message: message, recipients: recipents)
@@ -638,12 +689,10 @@ class _HomePageState extends State<HomePage> {
         initialCameraPosition:
             CameraPosition(target: LatLng(22.7196, 75.8577), zoom: 12),
         onMapCreated: (GoogleMapController controller) {
-          
           _controller.complete(controller);
         },
         markers: mark,
-          
-        
+
         // DewasMarker,
         // SagarMarker,
         // DasaiMarker,
@@ -678,14 +727,9 @@ class _HomePageState extends State<HomePage> {
       print("Marker value");
       print(tmp);
       mark.add(tmp);
-      
     }
     print("outside Marker value");
   }
-
-
-
-
 }
 
 // Marker IndoreMarker = Marker(

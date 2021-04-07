@@ -251,7 +251,7 @@ class _CampaignsPageState extends State<CampaignsPage> {
                                   : null,
                               onSaved: (value) => _text = value,
                               keyboardType: TextInputType.multiline,
-                              maxLength: 300,
+                              maxLength: 500,
                             ),
                           ),
                           Row(
